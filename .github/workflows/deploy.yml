@@ -1,5 +1,10 @@
 # Build Astro lalu publish ke GitHub Pages.
 # Dokumentasi: https://docs.astro.build/en/guides/deploy/github/
+#
+# PRASYARAT (sekali saja, lewat UI): Settings > Pages > Build and deployment
+# > Source = GitHub Actions. Token GITHUB_TOKEN di dalam workflow tidak
+# berwenang membuat Pages site baru, jadi `configure-pages` akan gagal dengan
+# "Get Pages site failed" selama Pages belum dinyalakan lewat UI.
 
 name: Deploy ke GitHub Pages
 
@@ -50,10 +55,6 @@ jobs:
       - name: Siapkan Pages
         uses: actions/configure-pages@v5
         with:
-          # Nyalakan Pages otomatis bila belum ada Pages site. Tanpa ini
-          # step ini gagal dengan "Get Pages site failed" sampai Pages
-          # diaktifkan lewat Settings > Pages.
-          enablement: true
           # Domain kustom. Isi dengan domain yang sama seperti public/CNAME.
           # Kosongkan untuk memakai domain bawaan <user>.github.io/<repo>.
           custom_domain: panensegar.jamesq.my.id
