@@ -12,6 +12,10 @@ backend:
   # Netlify membalas 404 karena repo ini tidak terhubung ke Netlify.
   auth_methods: [token]
 
+# Foto hasil unggahan lewat CMS. Astro tidak bisa mengoptimasi file di dalam
+# public/, jadi foto di sini disajikan apa adanya (tanpa WebP). Untuk itu
+# schema `photos` di src/content.config.ts menerima dua bentuk: path relatif
+# ke src/assets (teroptimasi) dan path /uploads (apa adanya).
 media_folder: public/uploads
 public_folder: /uploads
 
@@ -96,7 +100,11 @@ collections:
           name: photo
           widget: image
         min: 1
-        hint: Minimal satu foto. Folder src/assets/products dipakai untuk aset bawaan.
+        hint: >-
+          Minimal satu foto. Foto bawaan ada di src/assets/products dan sudah
+          dioptimasi. Foto yang Anda unggah lewat CMS tersimpan di
+          public/uploads dan disajikan apa adanya. Sebaikan lebar foto di
+          sekitar 1200 px supaya tetap ringan.
       - label: Tampilkan sebagai unggulan
         name: featured
         widget: boolean

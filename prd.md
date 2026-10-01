@@ -343,6 +343,7 @@ Runtime = tidak ada. Output build = direktori statis `dist/`.
     │   ├── WaIcon.astro       # ikon WA (inline SVG)
     │   ├── ProductCard.astro
     │   ├── SectionHeading.astro
+    │   ├── Gambar.astro        # <Image> untuk src/assets, <img> untuk public/
     │   └── Breadcrumb.astro
     ├── content.config.ts      # skema content collection
     ├── data/
@@ -352,7 +353,7 @@ Runtime = tidak ada. Output build = direktori statis `dist/`.
     ├── layouts/
     │   └── BaseLayout.astro
     ├── lib/
-    │   ├── catalog.ts         # query & agregasi produk
+    │   ├── catalog.ts         # query & agregasi produk, photoUrl()
     │   ├── format.ts          # format harga & tanggal
     │   ├── schema.ts          # pembangun JSON-LD
     │   └── whatsapp.ts        # helper tautan WA
@@ -389,9 +390,31 @@ Runtime = tidak ada. Output build = direktori statis `dist/`.
 
 ### 9.5 Strategi Aset Gambar
 
-- **Aset statis** (`src/assets/`): logo, hero, farm, foto produk. Diproses Astro (hash filename, konversi `.webp`).
-- **Aset passthrough** (`public/`): favicon, robots.txt, admin (harus tetap bisa diakses lewat path tetap, tidak di-hash).
+- **Aset statis** (`src/assets/`): logo, hero, farm, foto produk bawaan. Diproses Astro (hash filename, konversi `.webp`).
+- **Aset passthrough** (`public/`): favicon, robots.txt, admin (harus tetap bisa diakses lewat path tetap, tidak di-hash), dan hasil unggahan CMS di `public/uploads/`.
 - Foto produk: JPG beresolusi ~1200px sisi panjang, dipotong `object-cover` ke rasio 1:1 pada kartu.
+
+#### Dua sumber gambar pada field yang sama
+
+Karena `media_folder` CMS menunjuk ke `public/uploads`, satu field gambar bisa
+menyimpan dua bentuk nilai. Helper `gambar()` di `src/content.config.ts`
+menerima keduanya:
+
+| Bentuk nilai | Contoh | Perlakuan |
+| --- | --- | --- |
+| Path relatif ke `src/assets` | `../../assets/products/wortel.jpg` | `image()` → dioptimasi WebP |
+| Path absolut ke `public/` | `/uploads/jeruk-kg.jpg` | String, disajikan apa adanya |
+
+Tanpa pemisahan ini, `image()` akan mencoba mengimpor path `/uploads/…` dan
+build berhenti dengan `ImageNotFound` — begitu saja setelah pemilik usaha
+mengunggah foto pertama. Komponen `src/components/Gambar.astro` yang
+memilih `<Image>` atau `<img>` sesuai bentuknya, dan `photoUrl()` di
+`src/lib/catalog.ts` meratakan keduanya untuk schema.org serta `og:image`.
+
+Konsekuensi yang diterima: foto unggahan tidak dikonversi ke WebP dan tidak
+di-padding resize. Anjuran 1200px di `hint` field CMS ada untuk mengimbangi
+itu. Batasnya bukantrade-off estetika, tapi ukuran file — untuk katalog
+sayur, foto 1200px sudah lebih dari cukup.
 
 ### 9.6 Optimasi Ikon (best practice yang dianut)
 
@@ -635,6 +658,8 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **A-15** | Tidak ada tautan internal tanpa trailing slash | grep `href="/…"` di `dist/`, abaikan yang berekstensi | ✅ 0 dari 21 URL |
 | **A-16** | Tidak ada URL sitemap yang kena redirect | `curl -o /dev/null -w %{http_code}` tiap `<loc>` | ✅ 21/21 `200` tanpa redirect |
 | **A-17** | `photos` setiap produk berupa array datar berisi string | audit `src/data/products/*.json` | ✅ 13/13 |
+| **A-18** | Build tetap sukses saat field gambar diisi path `public/` | build dengan `photos: ["/uploads/x.jpg"]` | ✅ 22 halaman, `og:image` & ld+json benar |
+| **A-19** | Tidak ada regresi optimasi aset bawaan | jumlah `.webp` di `dist/_astro/` | ✅ 28 webp, 13/13 foto katalog teroptimasi |
 
 ### 13.2 Uji Manual (yang belum bisa diotomatisasi)
 

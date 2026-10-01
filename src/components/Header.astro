@@ -1,13 +1,13 @@
 ---
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+import type { GambarSrc } from '../content.config';
 import { pagePath } from '../lib/catalog';
+import Gambar from './Gambar.astro';
 import WaIcon from './WaIcon.astro';
 
 interface Brand {
   name: string;
   tagline: string;
-  logo?: ImageMetadata;
+  logo?: GambarSrc;
 }
 
 interface Props {
@@ -38,7 +38,7 @@ function isActive(href: string, path: string): boolean {
       <a href="/" class="flex shrink-0 items-center gap-2.5" aria-label={`${brand.name} — beranda`}>
         {
           brand.logo ? (
-            <Image
+            <Gambar
               src={brand.logo}
               alt=""
               width={36}

@@ -1,5 +1,6 @@
 ---
-import { Image } from 'astro:assets';
+import Gambar from '../components/Gambar.astro';
+import farmImage from '../assets/brand/farm.jpg';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
@@ -58,7 +59,7 @@ const closingLabel = 'Siap order?';
       {
         hero.image && (
           <div class="order-first lg:order-last">
-            <Image
+            <Gambar
               src={hero.image}
               alt="Lahan Panen Segar pada pagi hari"
               width={1600}
@@ -180,8 +181,8 @@ const closingLabel = 'Siap order?';
       </ul>
     </div>
     <div class="order-first lg:order-last">
-      <Image
-        src={import('../assets/brand/farm.jpg')}
+      <Gambar
+        src={farmImage}
         alt="Lahan sayur segar Panen Segar"
         width={1200}
         height={800}

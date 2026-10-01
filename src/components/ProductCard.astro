@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Gambar from '../components/Gambar.astro';
 import type { Category, Product } from '../lib/catalog';
 import { categoryPath, productPath } from '../lib/catalog';
 import { formatPrice } from '../lib/format';
@@ -26,7 +26,7 @@ const href = productPath(product.id);
     tabindex="-1"
     aria-hidden="true"
   >
-    <Image
+    <Gambar
       src={photos[0]}
       alt={name}
       width={400}

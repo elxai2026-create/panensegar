@@ -62,6 +62,23 @@ export async function getSiteProfile(): Promise<SiteProfile> {
 }
 
 /**
+ * Satu foto produk bisa berbentuk dua hal, bergantung dari asalnya
+ * (lihat helper `gambar` di src/content.config.ts):
+ * - objek gambar dari `image()`, punya `.src` seperti `/_astro/x.hash.webp`
+ * - string untuk aset di `public/`, misal `/uploads/apel-kg.jpg`
+ *
+ * Keduanya perlu diratakan jadi URL untuk schema.org dan attribute HTML.
+ * Tanpa ini, `photo.src` menghasilkan `undefined` untuk foto unggahan CMS.
+ */
+export function photoUrl(photo: unknown, site: URL | undefined): string {
+  const raw = typeof photo === 'string' ? photo : (photo as { src?: string })?.src;
+  if (!raw) {
+    throw new Error('Foto produk tidak punya sumber. Periksa isi field `photos` di JSON produk.');
+  }
+  return new URL(raw, site ?? 'https://example.invalid').toString();
+}
+
+/**
  * URL kanonis untuk sebuah produk.
  * Mengembalikan undefined bila produk tidak ditemukan agar pemanggil bisa
  * memakai getStaticPaths untuk membangkitkan 404 yang benar.

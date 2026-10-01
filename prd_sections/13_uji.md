@@ -23,6 +23,8 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **A-15** | Tidak ada tautan internal tanpa trailing slash | grep `href="/…"` di `dist/`, abaikan yang berekstensi | ✅ 0 dari 21 URL |
 | **A-16** | Tidak ada URL sitemap yang kena redirect | `curl -o /dev/null -w %{http_code}` tiap `<loc>` | ✅ 21/21 `200` tanpa redirect |
 | **A-17** | `photos` setiap produk berupa array datar berisi string | audit `src/data/products/*.json` | ✅ 13/13 |
+| **A-18** | Build tetap sukses saat field gambar diisi path `public/` | build dengan `photos: ["/uploads/x.jpg"]` | ✅ 22 halaman, `og:image` & ld+json benar |
+| **A-19** | Tidak ada regresi optimasi aset bawaan | jumlah `.webp` di `dist/_astro/` | ✅ 28 webp, 13/13 foto katalog teroptimasi |
 
 ### 13.2 Uji Manual (yang belum bisa diotomatisasi)
 

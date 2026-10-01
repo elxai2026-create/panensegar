@@ -1,4 +1,4 @@
-import type { SiteProfile } from './catalog';
+import { photoUrl, type SiteProfile } from './catalog';
 
 type Address = SiteProfile['contact']['address'];
 
@@ -31,7 +31,7 @@ export function buildOrganizationSchema(
     legalName: brand.legalName || undefined,
     description: profile.seo.description,
     url: canonical.origin,
-    image: profile.seo.ogImage ? new URL(profile.seo.ogImage.src, canonical).toString() : undefined,
+    image: profile.seo.ogImage ? photoUrl(profile.seo.ogImage, canonical) : undefined,
     telephone: `+${contact.whatsapp}`,
     email: contact.email || undefined,
     slogan: brand.tagline || undefined,

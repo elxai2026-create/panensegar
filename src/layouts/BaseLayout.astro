@@ -1,7 +1,7 @@
 ---
 import type { ImageMetadata } from 'astro';
 import '../styles/global.css';
-import { getSiteProfile } from '../lib/catalog';
+import { getSiteProfile, photoUrl } from '../lib/catalog';
 import { fillGreeting, waLink } from '../lib/whatsapp';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -11,7 +11,8 @@ import { buildOrganizationSchema } from '../lib/schema';
 interface Props {
   title?: string;
   description?: string;
-  ogImage?: ImageMetadata;
+  /** Gambar OG: aset teroptimasi (`ImageMetadata`) atau path `public/` (string). */
+  ogImage?: ImageMetadata | string;
   /** Menonaktifkan indexasi, dipakai pada halaman 404. */
   noindex?: boolean;
 }
@@ -51,7 +52,7 @@ const organizationSchema = buildOrganizationSchema(profile, canonical);
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={canonical} />
-    {socialImage && <meta property="og:image" content={new URL(socialImage.src, Astro.site)} />}
+    {socialImage && <meta property="og:image" content={photoUrl(socialImage, Astro.site)} />}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />

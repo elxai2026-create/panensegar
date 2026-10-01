@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Gambar from '../components/Gambar.astro';
 import type { SiteProfile } from '../lib/catalog';
 import { categoryPath, getCategories, pagePath } from '../lib/catalog';
 import { formatAddress } from '../lib/schema';
@@ -30,7 +30,7 @@ const nav = [
         <div class="flex items-center gap-2.5">
           {
             brand.logo && (
-              <Image src={brand.logo} alt="" width={32} height={32} class="h-8 w-8" loading="lazy" />
+              <Gambar src={brand.logo} alt="" width={32} height={32} class="h-8 w-8" loading="lazy" />
             )
           }
           <span class="text-lg font-extrabold">{brand.name}</span>

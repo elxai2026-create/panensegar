@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import type { GambarSrc } from '../content.config';
+
+interface Props {
+  src: GambarSrc;
+  alt: string;
+  width: number;
+  height: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'auto';
+}
+
+const { src, alt, width, height, loading = 'lazy', ...rest } = Astro.props;
+---
+
+{
+  typeof src === 'string' ? (
+    // Aset di public/ (hasil unggahan CMS) tidak bisa dioptimasi Astro,
+    // jadi ditulis sebagai <img> biasa.
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding="async"
+      {...rest}
+    />
+  ) : (
+    <Image src={src} alt={alt} width={width} height={height} loading={loading} {...rest} />
+  )
+}
