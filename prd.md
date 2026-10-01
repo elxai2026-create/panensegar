@@ -415,9 +415,9 @@ Runtime = tidak ada. Output build = direktori statis `dist/`.
 
 ### 10.2 Hosting Kompatibel
 
-| Platform | Cara deploy | Cocok |
+| Platform | Cara deploy | Dipakai |
 | --- | --- | --- |
-| GitHub Pages | Push ke branch, Pages dari `dist/` | Ya (repo sudah GitHub untuk Sveltia) |
+| **GitHub Pages** | Workflow `.github/workflows/deploy.yml` (build + publish otomatis tiap push ke `main`) | ✅ **dipakai** |
 | Netlify / Cloudflare Pages | Build command `npm run build`, publish dir `dist` | Ya |
 | Shared hosting / cPanel | Upload isi `dist/` via FTP | Ya |
 | VPS + Nginx | `root` → `dist/` | Ya (tanpa PHP) |
@@ -426,7 +426,11 @@ Runtime = tidak ada. Output build = direktori statis `dist/`.
 
 | Variabel | Status | Keterangan |
 | --- | --- | --- |
-| `SITE_URL` | **Wajib diisi** | URL kanonik produksi, mis. `https://panensegar.example.com`. Default saat ini masih nilai contoh — WAJIB diganti sebelum produksi (mengengaruhi canonical, OG URL, dan sitemap). |
+| `SITE_URL` | ✅ diset | Domain produksi `https://panensegar.jamesq.my.id`. Nilai default di `astro.config.mjs` sudah domain ini; env var hanya untuk override (mis. pratinjau). |
+
+Nilai domain ini dipakai di tiga tempat sekaligus dan harus konsisten:
+`astro.config.mjs` (`site`), `public/robots.txt` (baris `Sitemap:`), dan
+`SITE_URL` pada workflow deploy.
 
 ### 10.4 Prasyarat CMS (Sveltia)
 
@@ -438,6 +442,33 @@ Runtime = tidak ada. Output build = direktori statis `dist/`.
 | Kolaborator repo | Belum | Akun yang boleh masuk CMS |
 
 Sebelum `/admin/` dapat dipakai: push kode ke GitHub → setujui OAuth di Sveltia saat login pertama → undang akun sebagai kolaborator.
+
+### 10.6 Alur Deploy (GitHub Pages)
+
+```
+git push ke main  →  workflow: checkout → npm ci → check → build → upload → publish
+```
+
+| Item | Nilai |
+| --- | --- |
+| Workflow | `.github/workflows/deploy.yml` |
+| Trigger | push ke `main`, plus manual (`workflow_dispatch`) |
+| Node | 22 (mengikuti `engines` di `package.json`) |
+| Cache | `npm` via `actions/setup-node` |
+| Gate | `npm run check` — workflow gagal bila ada typecheck error |
+| Publish | `actions/upload-pages-artifact` + `actions/deploy-pages` |
+| Concurrency | grup `pages`, `cancel-in-progress: true` |
+
+Dua file pendukung yang wajib ada agar deploy benar:
+
+| File | Isi | Alasan |
+| --- | --- | --- |
+| `public/CNAME` | `panensegar.jamesq.my.id` | Minta GitHub Pages memakai domain ini, bukan `elxai2026-create.github.io` |
+| `public/.nojekyll` | kosong | Mencegah Jekyll mengabaikan folder `_astro/` (nama berawalan underscore) |
+
+Karena domain kustom memakai path root (`/`), `base` di `astro.config.mjs`
+tidak perlu diubah. Kalau nanti situs dipindah ke path sub-domain seperti
+`user.github.io/panensegar`, `base: '/panensegar'` baru diperlukan.
 
 ### 10.5 Content Update Cycle
 
@@ -454,8 +485,8 @@ Karena hosting statis, **perubahan konten butuh rebuild otomatis** (triggered by
 | ID | Risiko / Batasan | Dampak | Mitigasi / Status |
 | --- | --- | --- | --- |
 | **R-01** | Nomor WhatsApp & domain masih nilai contoh | Pelanggan menghubungi nomor yang salah / URL salah | WAJIB diganti sebelum produksi (lihat 10.3) |
-| **R-02** | `/admin/` belum bisa dipakai | Admin tidak bisa edit konten | Prasyarat CMS belum/setup (lihat 10.4) |
-| **R-03** | Repo belum di-init git | Tidak ada version control, Sveltia tak bisa commit | `git init` + push sebelum pakai CMS |
+| **R-02** | `/admin/` belum diotorisasi OAuth | Admin belum bisa login | Kode sudah siap; tinggal setujui OAuth saat login pertama (lihat 10.4) |
+| **R-03** | Workflow Pages belum pernah jalan | Situs belum online | ✅ Sudah ada `.github/workflows/deploy.yml`; cukup Settings > Pages > source = GitHub Actions |
 | **R-04** | Dua foto produk masih "proxy" | `beras` (foto beras putih, bukan pandan wangi) & `bawang-merah` (foto red onion, bukan shallot) kurang akurat | Ganti dengan foto asli lewat CMS bila tersedia |
 | **R-05** | Identitas foto bergeser dari metadata | Foto mungkin tidak persis sesuai produk | Verifikasi manual di `/produk` sebelum produksi |
 | **R-06** | Identitas visual tidak terkonfirmasi otomatis | Deskripsi produk bisa meleset | Butuh mata manusia; tidak ada tools image-insight |
@@ -545,6 +576,8 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **A-10** | Sitemap terbentuk | `dist/sitemap-index.xml` | ✅ |
 | **A-11** | robots.txt ada & exempt `/admin/` | `dist/robots.txt` | ✅ |
 | **A-12** | Foto produk terpasang (bukan SVG placeholder) | `src/assets/products/*.jpg` | ✅ 13 |
+| **A-13** | Domain produksi konsisten di canonical/OG/sitemap | grep domain di `dist/` | ✅ `panensegar.jamesq.my.id`, 0 sisa domain contoh |
+| **A-14** | `CNAME` + `.nojekyll` ikut ke output | `ls -a dist/` | ✅ keduanya ada |
 
 ### 13.2 Uji Manual (yang belum bisa diotomatisasi)
 
@@ -556,6 +589,7 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **M-04** | Tombol WA membuka WA dengan pesan benar | Klik tombol, cek app/wa.me | ⬜ Butuh device |
 | **M-05** | Login CMS & edit konten | Buka `/admin/` | ⬜ Prasyarat belum setup |
 | **M-06** | Validasi Rich Results (schema.org) | Google Rich Results Test | ⬜ Butuh URL publik |
+| **M-07** | Situs benar-benar online di domain | Buka `https://panensegar.jamesq.my.id` | ⬜ Tunggu workflow pertama + setup Pages |
 
 ### 13.3 Uji Otomatis (yang sudah Dijalankan)
 
@@ -572,4 +606,4 @@ Audit `dist/` yang dijalankan setiap build memverifikasi:
 PRD ini selesai bila:
 - [ ] Seluruh acceptance criteria A-01..A-12 ✅ (terpenuhi).
 - [ ] Uji manual M-01..M-03 dijalankan dan disetujui pemilik.
-- [ ] Prasyarat produksi (R-01, R-02, R-03) diselesaikan: `SITE_URL` diganti, repo di-init, `backend.repo` CMS dikonfigurasi.
+- [ ] Prasyarat produksi diselesaikan: ~~`SITE_URL`~~ ✅, ~~repo di-init~~ ✅, ~~`backend.repo` CMS~~ ✅, ~~workflow Pages~~ ✅ — tersisa: ganti nomor WhatsApp placeholder, otorisasi OAuth CMS, dan nyalakan Pages di Settings.

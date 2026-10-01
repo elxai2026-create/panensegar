@@ -18,6 +18,8 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **A-10** | Sitemap terbentuk | `dist/sitemap-index.xml` | ✅ |
 | **A-11** | robots.txt ada & exempt `/admin/` | `dist/robots.txt` | ✅ |
 | **A-12** | Foto produk terpasang (bukan SVG placeholder) | `src/assets/products/*.jpg` | ✅ 13 |
+| **A-13** | Domain produksi konsisten di canonical/OG/sitemap | grep domain di `dist/` | ✅ `panensegar.jamesq.my.id`, 0 sisa domain contoh |
+| **A-14** | `CNAME` + `.nojekyll` ikut ke output | `ls -a dist/` | ✅ keduanya ada |
 
 ### 13.2 Uji Manual (yang belum bisa diotomatisasi)
 
@@ -29,6 +31,7 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **M-04** | Tombol WA membuka WA dengan pesan benar | Klik tombol, cek app/wa.me | ⬜ Butuh device |
 | **M-05** | Login CMS & edit konten | Buka `/admin/` | ⬜ Prasyarat belum setup |
 | **M-06** | Validasi Rich Results (schema.org) | Google Rich Results Test | ⬜ Butuh URL publik |
+| **M-07** | Situs benar-benar online di domain | Buka `https://panensegar.jamesq.my.id` | ⬜ Tunggu workflow pertama + setup Pages |
 
 ### 13.3 Uji Otomatis (yang sudah Dijalankan)
 
@@ -45,4 +48,4 @@ Audit `dist/` yang dijalankan setiap build memverifikasi:
 PRD ini selesai bila:
 - [ ] Seluruh acceptance criteria A-01..A-12 ✅ (terpenuhi).
 - [ ] Uji manual M-01..M-03 dijalankan dan disetujui pemilik.
-- [ ] Prasyarat produksi (R-01, R-02, R-03) diselesaikan: `SITE_URL` diganti, repo di-init, `backend.repo` CMS dikonfigurasi.
+- [ ] Prasyarat produksi diselesaikan: ~~`SITE_URL`~~ ✅, ~~repo di-init~~ ✅, ~~`backend.repo` CMS~~ ✅, ~~workflow Pages~~ ✅ — tersisa: ganti nomor WhatsApp placeholder, otorisasi OAuth CMS, dan nyalakan Pages di Settings.

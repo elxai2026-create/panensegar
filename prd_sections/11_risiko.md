@@ -3,8 +3,8 @@
 | ID | Risiko / Batasan | Dampak | Mitigasi / Status |
 | --- | --- | --- | --- |
 | **R-01** | Nomor WhatsApp & domain masih nilai contoh | Pelanggan menghubungi nomor yang salah / URL salah | WAJIB diganti sebelum produksi (lihat 10.3) |
-| **R-02** | `/admin/` belum bisa dipakai | Admin tidak bisa edit konten | Prasyarat CMS belum/setup (lihat 10.4) |
-| **R-03** | Repo belum di-init git | Tidak ada version control, Sveltia tak bisa commit | `git init` + push sebelum pakai CMS |
+| **R-02** | `/admin/` belum diotorisasi OAuth | Admin belum bisa login | Kode sudah siap; tinggal setujui OAuth saat login pertama (lihat 10.4) |
+| **R-03** | Workflow Pages belum pernah jalan | Situs belum online | ✅ Sudah ada `.github/workflows/deploy.yml`; cukup Settings > Pages > source = GitHub Actions |
 | **R-04** | Dua foto produk masih "proxy" | `beras` (foto beras putih, bukan pandan wangi) & `bawang-merah` (foto red onion, bukan shallot) kurang akurat | Ganti dengan foto asli lewat CMS bila tersedia |
 | **R-05** | Identitas foto bergeser dari metadata | Foto mungkin tidak persis sesuai produk | Verifikasi manual di `/produk` sebelum produksi |
 | **R-06** | Identitas visual tidak terkonfirmasi otomatis | Deskripsi produk bisa meleset | Butuh mata manusia; tidak ada tools image-insight |

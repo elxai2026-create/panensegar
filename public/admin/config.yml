@@ -14,7 +14,7 @@ public_folder: /uploads
 # Owner utama: username GitHub pemilik usaha (boleh beberapa, pisahkan koma).
 publish_mode: editorial_workflow
 
-site_url: https://panensegar.example.com
+site_url: https://panensegar.jamesq.my.id
 logo_url: /favicon.svg
 
 collections:

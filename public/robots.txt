@@ -4,4 +4,4 @@ Allow: /
 # Halaman admin CMS tidak perlu diindeks.
 Disallow: /admin/
 
-Sitemap: https://panensegar.example.com/sitemap-index.xml
+Sitemap: https://panensegar.jamesq.my.id/sitemap-index.xml

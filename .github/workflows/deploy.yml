@@ -1,0 +1,68 @@
+# Build Astro lalu publish ke GitHub Pages.
+# Dokumentasi: https://docs.astro.build/en/guides/deploy/github/
+
+name: Deploy ke GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Jalankan manual dari tab Actions tanpa perlu commit baru.
+  workflow_dispatch:
+
+# Izin minimum: baca repo, tulis Pages, danchastic token untuk Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Cancel run sebelumnya yang belum selesai supaya tidak saling tumpang tindih.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          # Harus sesuai "engines" di package.json.
+          node-version: 22
+          cache: npm
+
+      - name: Install dependensi
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run check
+
+      - name: Build
+        env:
+          # Domain produksi. Harus sama dengan isi public/CNAME.
+          SITE_URL: https://panensegar.jamesq.my.id
+        run: npm run build
+
+      - name: Siapkan Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artefak
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy ke Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
