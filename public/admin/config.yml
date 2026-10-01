@@ -95,9 +95,6 @@ collections:
           label: Foto
           name: photo
           widget: image
-          media_library:
-            config:
-              multiple: true
         min: 1
         hint: Minimal satu foto. Folder src/assets/products dipakai untuk aset bawaan.
       - label: Tampilkan sebagai unggulan

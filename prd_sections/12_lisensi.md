@@ -44,4 +44,4 @@ Menggunakan **system font stack** (tanpa font eksternal) → tidak ada GOOGLE Fo
 ### 12.5 Catatan Penting
 
 - **Tidak ada aset berbayar/premium** yang dipakai. Semua foto dari CDN gratis (bukan `plus.unsplash.com`).
-- Jika Anda ingin ganti foto ke foto dagangan asli, cukup upload lewat CMS — field `photos` sudah siap menerima multiple images.
+- Jika Anda ingin ganti foto ke foto dagangan asli, cukup upload lewat CMS. Field `photos` menerima lebih dari satu foto, dan hasilnya **tetap berupa array datar** — lihat A-17. Widget `list` sudah membungkus tiap entri foto, jadi field `image` di dalamnya **tidak boleh** diberi `multiple: true`; kalau diberi, Sveltia menulis array dua lapis yang ditolak skema `image()` dan build Cloudflare gagal.

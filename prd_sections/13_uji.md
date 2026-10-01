@@ -22,6 +22,7 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **A-14** | Aset ter-resolve dari path root | `curl -oI /$SITE/_astro/…` | ✅ `base` tetap `/`, benar untuk domain kustom & `pages.dev` |
 | **A-15** | Tidak ada tautan internal tanpa trailing slash | grep `href="/…"` di `dist/`, abaikan yang berekstensi | ✅ 0 dari 21 URL |
 | **A-16** | Tidak ada URL sitemap yang kena redirect | `curl -o /dev/null -w %{http_code}` tiap `<loc>` | ✅ 21/21 `200` tanpa redirect |
+| **A-17** | `photos` setiap produk berupa array datar berisi string | audit `src/data/products/*.json` | ✅ 13/13 |
 
 ### 13.2 Uji Manual (yang belum bisa diotomatisasi)
 

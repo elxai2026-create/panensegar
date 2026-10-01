@@ -94,7 +94,7 @@ membangun.
 | Repo GitHub | ✅ `elxai2026-create/panensegar` (publik) | Terisi, sudah punya commit |
 | `config.yml` valid YAML | ✅ | `yaml.safe_load` lolos. Dulu gagal parse: 5 baris `hint`/`help` memakai `:` di dalam nilai polos tanpa kutip, dan satu di antaranya kutip tunggalnya tidak ditutup |
 | `backend.repo` di `config.yml` | ✅ `elxai2026-create/panensegar` | Sudah diisi |
-| Login | ⬜ | Gunakan personal access token — lihat di bawah |
+| Login | ✅ Personal access token, sudah dipakai | Lihat di bawah |
 | Kolaborator repo | Belum | Hanya perlu bila orang lain besides Anda yang akan mengedit |
 
 #### Metode login: personal access token

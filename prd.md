@@ -495,7 +495,7 @@ membangun.
 | Repo GitHub | ✅ `elxai2026-create/panensegar` (publik) | Terisi, sudah punya commit |
 | `config.yml` valid YAML | ✅ | `yaml.safe_load` lolos. Dulu gagal parse: 5 baris `hint`/`help` memakai `:` di dalam nilai polos tanpa kutip, dan satu di antaranya kutip tunggalnya tidak ditutup |
 | `backend.repo` di `config.yml` | ✅ `elxai2026-create/panensegar` | Sudah diisi |
-| Login | ⬜ | Gunakan personal access token — lihat di bawah |
+| Login | ✅ Personal access token, sudah dipakai | Lihat di bawah |
 | Kolaborator repo | Belum | Hanya perlu bila orang lain besides Anda yang akan mengedit |
 
 #### Metode login: personal access token
@@ -606,7 +606,7 @@ Menggunakan **system font stack** (tanpa font eksternal) → tidak ada GOOGLE Fo
 ### 12.5 Catatan Penting
 
 - **Tidak ada aset berbayar/premium** yang dipakai. Semua foto dari CDN gratis (bukan `plus.unsplash.com`).
-- Jika Anda ingin ganti foto ke foto dagangan asli, cukup upload lewat CMS — field `photos` sudah siap menerima multiple images.
+- Jika Anda ingin ganti foto ke foto dagangan asli, cukup upload lewat CMS. Field `photos` menerima lebih dari satu foto, dan hasilnya **tetap berupa array datar** — lihat A-17. Widget `list` sudah membungkus tiap entri foto, jadi field `image` di dalamnya **tidak boleh** diberi `multiple: true`; kalau diberi, Sveltia menulis array dua lapis yang ditolak skema `image()` dan build Cloudflare gagal.
 
 ---
 
@@ -634,6 +634,7 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **A-14** | Aset ter-resolve dari path root | `curl -oI /$SITE/_astro/…` | ✅ `base` tetap `/`, benar untuk domain kustom & `pages.dev` |
 | **A-15** | Tidak ada tautan internal tanpa trailing slash | grep `href="/…"` di `dist/`, abaikan yang berekstensi | ✅ 0 dari 21 URL |
 | **A-16** | Tidak ada URL sitemap yang kena redirect | `curl -o /dev/null -w %{http_code}` tiap `<loc>` | ✅ 21/21 `200` tanpa redirect |
+| **A-17** | `photos` setiap produk berupa array datar berisi string | audit `src/data/products/*.json` | ✅ 13/13 |
 
 ### 13.2 Uji Manual (yang belum bisa diotomatisasi)
 
