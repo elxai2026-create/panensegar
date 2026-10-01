@@ -1,14 +1,16 @@
 {
   "name": "Apel Fuji",
-  "summary": "Apel Fuji renyah dan manis dari kebun dataran tinggi.",
-  "description": "Tumbuh di dataran tinggi dengan suhu dingin, sehingga teksturnya lebih renyah dan asamnya lebih rendah. Dipanen pada ukuran yang paling manis, bukan dibiarkan terlalu matang di pohon.",
   "category": "buah",
-  "price": 35000,
+  "price": 45000,
   "unit": "kg",
   "minOrder": "5 kg",
   "stockNote": "Panen setiap 2 hari",
+  "summary": "Apel Fuji renyah dan manis dari kebun dataran tinggi.",
+  "description": "Tumbuh di dataran tinggi dengan suhu dingin, sehingga teksturnya lebih renyah dan asamnya lebih rendah. Dipanen pada ukuran yang paling manis, bukan dibiarkan terlalu matang di pohon.",
   "photos": [
-    "../../assets/products/apel-fuji.jpg"
+    [
+      "../../assets/products/apel-fuji.jpg"
+    ]
   ],
   "featured": false,
   "popular": false,
@@ -18,6 +20,6 @@
     "renyah",
     "grade a"
   ],
-  "updatedAt": "2026-10-01",
-  "order": 80
+  "order": 80,
+  "updatedAt": "2026-10-01"
 }
