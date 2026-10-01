@@ -1,14 +1,16 @@
 {
   "name": "Jeruk Medan",
-  "summary": "Jeruk Medan yang banyak air dan mudah dipisah bulirnya.",
-  "description": "Sudah matang di pohon, jadi rasa manisnya tidak bergantung pada waktu pemerasan. Bulirnya mudah dipisah dari kulit dan kadar airnya tinggi, enak dimakan langsung atau diperas jadi jus.",
   "category": "buah",
-  "price": 19000,
+  "price": 22000,
   "unit": "kg",
   "minOrder": "5 kg",
   "stockNote": "Panen mingguan",
+  "summary": "Jeruk Medan yang banyak air dan mudah dipisah bulirnya.",
+  "description": "Sudah matang di pohon, jadi rasa manisnya tidak bergantung pada waktu pemerasan. Bulirnya mudah dipisah dari kulit dan kadar airnya tinggi, enak dimakan langsung atau diperas jadi jus.",
   "photos": [
-    "../../assets/products/jeruk-medan.jpg"
+    [
+      "../../assets/products/jeruk-medan.jpg"
+    ]
   ],
   "featured": true,
   "popular": false,
@@ -18,6 +20,6 @@
     "jus",
     "vitamin c"
   ],
-  "updatedAt": "2026-10-01",
-  "order": 70
+  "order": 70,
+  "updatedAt": "2026-10-01"
 }
