@@ -1,11 +1,16 @@
 # Admin Sveltia CMS.
-# Backend: GitHub. Login memakai akun GitHub yang sudah diundang sebagai kolaborator repo ini.
+# Backend: GitHub via personal access token.
+# Login memakai token milik akun yang punya akses tulis ke repo ini.
 # Kalau butuh ganti repo, cukup ubah `backend.repo` di bawah.
 
 backend:
   name: github
   repo: elxai2026-create/panensegar
   branch: main
+  # Hanya personal access token. Tanpa baris ini Sveltia menampilkan tombol
+  # "Sign in with GitHub" yang memakai Netlify sebagai OAuth client — dan
+  # Netlify membalas 404 karena repo ini tidak terhubung ke Netlify.
+  auth_methods: [token]
 
 media_folder: public/uploads
 public_folder: /uploads

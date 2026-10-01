@@ -108,6 +108,12 @@ Ada dua cara. Untuk satu pengguna, token jauh lebih sederhana:
 |-Friendly untuk non-teknis | Tidak — harus paham PAT | Ya |
 | Token tersimpan di | localStorage browser | Tidak ada |
 
+Config memakai `auth_methods: [token]`. Tanpa itu, Sveltia menampilkan tombol
+"Sign in with GitHub" yang diam-diam memakai Netlify sebagai OAuth client —
+dan Netlify membalas 404 karena repo ini tidak terhubung ke Netlify. Tombol
+itu tidak akan pernah bekerja, jadi lebih baik disembunyikan daripada
+membingungkan.
+
 Fine-grained PAT yang dibutuhkan karena `publish_mode: editorial_workflow`
 membuka pull request untuk setiap entri:
 
