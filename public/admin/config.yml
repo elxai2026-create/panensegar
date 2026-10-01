@@ -6,7 +6,6 @@ backend:
   name: github
   repo: elxai2026-create/panensegar
   branch: main
-  base_url: https://oauth.sveltia-cms.app
 
 media_folder: public/uploads
 public_folder: /uploads
@@ -62,7 +61,7 @@ collections:
         widget: number
         value_type: int
         min: 0
-        help: 'Contoh: 18500 berarti Rp 18.500 per satuan.
+        help: "Contoh: 18500 berarti Rp 18.500 per satuan."
       - label: Satuan jual
         name: unit
         widget: select
@@ -71,12 +70,12 @@ collections:
         name: minOrder
         widget: string
         required: false
-        hint: 'Contoh: 5 kg. Kosongkan bila tidak ada minimal.
+        hint: "Contoh: 5 kg. Kosongkan bila tidak ada minimal order."
       - label: Catatan ketersediaan
         name: stockNote
         widget: string
         required: false
-        hint: 'Contoh: Panen tiap 3 hari.
+        hint: "Contoh: Panen tiap 3 hari."
       - label: Ringkasan (tampil di kartu produk)
         name: summary
         widget: text
@@ -149,12 +148,12 @@ collections:
         name: emoji
         widget: string
         default: '🌱'
-        hint: Contoh: 🥬 🍊 🌾 🧅 🌶️
+        hint: "Contoh: 🥬 🍊 🌾 🧅 🌶️"
       - label: Warna aksen (hex)
         name: accent
         widget: string
         default: '#3A9A40'
-        hint: Format #RRGGBB, contoh #2E7D32
+        hint: "Format hex, contoh: 2E7D32 (tanpa tanda #)"
       - { label: Urutan tampil, name: order, widget: number, value_type: int, default: 100 }
 
   # ------------------------------------------------------------------
@@ -195,7 +194,7 @@ collections:
                 widget: string
                 pattern:
                   ['^62[0-9]{8,13}$', 'Format 62xxx, tanpa tanda + dan tanpa spasi']
-                hint: Contoh: 6281234567890
+                hint: "Contoh: 6281234567890"
               - { label: Email, name: email, widget: string, required: false }
               - label: Alamat
                 name: address

@@ -493,13 +493,38 @@ membangun.
 | Prasyarat | Status | Catatan |
 | --- | --- | --- |
 | Repo GitHub | ✅ `elxai2026-create/panensegar` (publik) | Terisi, sudah punya commit |
+| `config.yml` valid YAML | ✅ | `yaml.safe_load` lolos. Dulu gagal parse: 5 baris `hint`/`help` memakai `:` di dalam nilai polos tanpa kutip, dan satu di antaranya kutip tunggalnya tidak ditutup |
 | `backend.repo` di `config.yml` | ✅ `elxai2026-create/panensegar` | Sudah diisi |
-| Git gateway / OAuth | Belum diotorisasi | Login pertama di `/admin/` akan meminta persetujuan di `oauth.sveltia-cms.app` |
-| Kolaborator repo | Belum | Akun yang boleh masuk CMS |
+| Login | ⬜ | Gunakan personal access token — lihat di bawah |
+| Kolaborator repo | Belum | Hanya perlu bila orang lain besides Anda yang akan mengedit |
 
-Sebelum `/admin/` dapat dipakai: setujui OAuth di Sveltia saat login
-pertama → undang akun sebagai kolaborator repo. Build situs tidak
-bergantung pada langkah ini, jadi CMS boleh diaktifkan belakangan.
+#### Metode login: personal access token
+
+Ada dua cara. Untuk satu pengguna, token jauh lebih sederhana:
+
+| | Access token | OAuth (Authorization Code Flow) |
+| --- | --- | --- |
+| Yang perlu disiapkan | Fine-grained PAT di GitHub | OAuth app di GitHub + OAuth client server (Cloudflare Worker) |
+| Perubahan di repo | Tidak ada | `backend.base_url` diisi URL OAuth client |
+|-Friendly untuk non-teknis | Tidak — harus paham PAT | Ya |
+| Token tersimpan di | localStorage browser | Tidak ada |
+
+Fine-grained PAT yang dibutuhkan karena `publish_mode: editorial_workflow`
+membuka pull request untuk setiap entri:
+
+| Permission | Akses | Untuk apa |
+| --- | --- | --- |
+| Contents | Read and write | Commit entri dan aset |
+| Pull requests | Read and write | Membuka, me-label, merge, menutup PR tiap entri |
+
+Tanpa permission Pull requests, CMS akan commit ke branch workflow lalu
+gagal membuka PR dengan "Resource not accessible by personal access token".
+
+`backend.base_url` sengaja tidak diisi. Nilai yang pernah ada di sana
+(`oauth.sveltia-cms.app`) tidak/domain yang tidak ada, sehingga tombol OAuth
+pasti gagal. Kalau nanti butuh OAuth, deploy
+[Sveltia CMS Authenticator](https://github.com/sveltia/sveltia-cms-auth) di
+Cloudflare Worker lalu isi `base_url` dengan URL Worker tersebut.
 
 ---
 
@@ -631,4 +656,4 @@ Audit `dist/` yang dijalankan setiap build memverifikasi:
 PRD ini selesai bila:
 - [ ] Seluruh acceptance criteria A-01..A-12 ✅ (terpenuhi).
 - [ ] Uji manual M-01..M-03 dijalankan dan disetujui pemilik.
-- [ ] Prasyarat produksi diselesaikan: ~~`SITE_URL`~~ ✅, ~~repo di-init & ter-push~~ ✅, ~~`backend.repo` CMS~~ ✅, ~~pipeline build~~ ✅ (Cloudflare Pages) — tersisa: hubungkan repo di dashboard Cloudflare, ganti nomor WhatsApp placeholder, dan otorisasi OAuth CMS.
+- [x] Prasyarat produksi diselesaikan: ~~`SITE_URL`~~ ✅, ~~repo di-init & ter-push~~ ✅, ~~`backend.repo` CMS~~ ✅, ~~pipeline build~~ ✅ (Cloudflare Pages) — tersisa: hubungkan repo di dashboard Cloudflare, ganti nomor WhatsApp placeholder, dan otorisasi OAuth CMS.
