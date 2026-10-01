@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { pagePath } from '../lib/catalog';
 import WaIcon from './WaIcon.astro';
 
 interface Brand {
@@ -18,9 +19,9 @@ interface Props {
 const { brand, currentPath, waHref } = Astro.props;
 
 const links = [
-  { href: '/', label: 'Beranda' },
-  { href: '/produk', label: 'Produk' },
-  { href: '/tentang-kami', label: 'Tentang Kami' },
+  { href: pagePath(''), label: 'Beranda' },
+  { href: pagePath('produk'), label: 'Produk' },
+  { href: pagePath('tentang-kami'), label: 'Tentang Kami' },
 ];
 
 /** Aktif bila path saat ini sama persis atau merupakan induk dari link. */

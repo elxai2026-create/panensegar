@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import WAButton from '../components/WAButton.astro';
+import { pagePath } from '../lib/catalog';
 
 const suggestions = [
-  { href: '/produk', label: 'Katalog produk', desc: 'Lihat seluruh produk dan harga terbaru.' },
-  { href: '/tentang-kami', label: 'Tentang kami', desc: 'Profil usaha, visi, misi, dan lokasi.' },
-  { href: '/', label: 'Beranda', desc: 'Kembali ke halaman utama.' },
+  { href: pagePath('produk'), label: 'Katalog produk', desc: 'Lihat seluruh produk dan harga terbaru.' },
+  { href: pagePath('tentang-kami'), label: 'Tentang kami', desc: 'Profil usaha, visi, misi, dan lokasi.' },
+  { href: pagePath(''), label: 'Beranda', desc: 'Kembali ke halaman utama.' },
 ];
 ---
 

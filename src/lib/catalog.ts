@@ -67,9 +67,18 @@ export async function getSiteProfile(): Promise<SiteProfile> {
  * memakai getStaticPaths untuk membangkitkan 404 yang benar.
  */
 export function productPath(id: string): string {
-  return `/produk/${id}`;
+  return `/produk/${id}/`;
 }
 
 export function categoryPath(id: string): string {
-  return `/kategori/${id}`;
+  return `/kategori/${id}/`;
+}
+
+/**
+ * Halaman statis yang dirujuk langsung dari markup. Trailing slash wajib
+ * karena Cloudflare Pages menyajikan folder sebagai /path/ dan me-redirect
+ * /path ke /path/. Tanpa ini tiap klik/internal link kena satu redirect.
+ */
+export function pagePath(slug: '' | 'produk' | 'tentang-kami'): string {
+  return slug === '' ? '/' : `/${slug}/`;
 }

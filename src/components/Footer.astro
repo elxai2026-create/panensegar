@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { SiteProfile } from '../lib/catalog';
+import { categoryPath, getCategories, pagePath } from '../lib/catalog';
 import { formatAddress } from '../lib/schema';
 import { waDisplayNumber } from '../lib/whatsapp';
 
@@ -15,12 +16,10 @@ const year = new Date().getFullYear();
 const address = formatAddress(contact.address);
 
 const nav = [
-  { href: '/produk', label: 'Semua Produk' },
-  { href: '/kategori/sayur', label: 'Sayur' },
-  { href: '/kategori/buah', label: 'Buah' },
-  { href: '/kategori/beras', label: 'Beras' },
-  { href: '/kategori/umbi', label: 'Umbi' },
-  { href: '/kategori/rempah', label: 'Rempah' },
+  { href: pagePath('produk'), label: 'Semua Produk' },
+  // Kategori diambil dari data, bukan ditulis manual, supaya label baru
+  // ikut muncul begitu CMS menambah kategori.
+  ...(await getCategories()).map((c) => ({ href: categoryPath(c.id), label: c.data.name })),
 ];
 ---
 

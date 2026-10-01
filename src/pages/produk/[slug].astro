@@ -5,7 +5,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import WAButton from '../../components/WAButton.astro';
-import { getAvailableProducts, getCategoryMap, getSiteProfile } from '../../lib/catalog';
+import {
+  categoryPath,
+  getAvailableProducts,
+  getCategoryMap,
+  getSiteProfile,
+  pagePath,
+} from '../../lib/catalog';
 import { formatDate, formatPrice } from '../../lib/format';
 import { buildProductSchema } from '../../lib/schema';
 
@@ -49,10 +55,10 @@ const productSchema = buildProductSchema(
   <div class="container-page py-8">
     <Breadcrumb
       items={[
-        { label: 'Beranda', href: '/' },
-        { label: 'Produk', href: '/produk' },
+        { label: 'Beranda', href: pagePath('') },
+        { label: 'Produk', href: pagePath('produk') },
         ...(category
-          ? [{ label: category.data.name, href: `/kategori/${category.id}` }]
+          ? [{ label: category.data.name, href: categoryPath(category.id) }]
           : []),
         { label: name },
       ]}
@@ -96,7 +102,7 @@ const productSchema = buildProductSchema(
         {
           category && (
             <a
-              href={`/kategori/${category.id}`}
+              href={categoryPath(category.id)}
               class="text-sm font-semibold text-brand-600 hover:underline"
             >
               {category.data.emoji} {category.data.name}
@@ -127,7 +133,7 @@ const productSchema = buildProductSchema(
 
         <div class="mt-6 flex flex-col gap-3 sm:flex-row">
           <WAButton productName={name} label="Pesan" />
-          <a href="/produk" class="btn-ghost">Lihat produk lain</a>
+          <a href={pagePath("produk")} class="btn-ghost">Lihat produk lain</a>
         </div>
 
         {

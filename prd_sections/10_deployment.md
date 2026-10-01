@@ -47,6 +47,24 @@ kustom maupun `*.pages.dev`, jadi `base` di `astro.config.mjs` tetap `/`
 dan aset `/_astro/…` selalu benar. Tidak ada `CNAME` atau `.nojekyll`
 yang perlu ikut dalam repo.
 
+#### Trailing slash
+
+Cloudflare Pages menyajikan `dist/path/index.html` sebagai `/path/` dan
+me-redirect `/path` ke `/path/` dengan 307. Agar canonical, sitemap, dan
+tautan internal tidak kena redirect, `trailingSlash: 'always'` dipakai
+dan semua URL internal dibuat lewat helper:
+
+| Helper | Keluaran |
+| --- | --- |
+| `pagePath('')` | `/` |
+| `pagePath('produk')` | `/produk/` |
+| `productPath(id)` | `/produk/<id>/` |
+| `categoryPath(id)` | `/kategori/<id>/` |
+
+Helper ini dipakai di header, footer, breadcrumb, kartu produk, dan CTA.
+Menulis path secara manual berisiko besar karena trailing slash mudah
+terlewat dan gejalanya (307) tidak terlihat di build.
+
 ### 10.4 Variabel Lingkungan
 
 | Variabel | Status | Keterangan |

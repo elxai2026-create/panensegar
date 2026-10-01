@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { Category, Product } from '../lib/catalog';
-import { productPath } from '../lib/catalog';
+import { categoryPath, productPath } from '../lib/catalog';
 import { formatPrice } from '../lib/format';
 import WAButton from './WAButton.astro';
 
@@ -48,7 +48,7 @@ const href = productPath(product.id);
     {
       category && (
         <a
-          href={`/kategori/${category.id}`}
+          href={categoryPath(category.id)}
           class="relative z-10 self-start text-xs font-semibold tracking-wide text-brand-600 hover:underline"
         >
           {category.data.name}

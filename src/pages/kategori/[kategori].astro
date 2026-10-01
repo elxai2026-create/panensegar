@@ -3,7 +3,13 @@ import type { GetStaticPaths } from 'astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
-import { getAvailableProducts, getCategories, getCategoryMap } from '../../lib/catalog';
+import {
+  categoryPath,
+  getAvailableProducts,
+  getCategories,
+  getCategoryMap,
+  pagePath,
+} from '../../lib/catalog';
 
 export const getStaticPaths = (async () => {
   const categories = await getCategories();
@@ -28,8 +34,8 @@ const pageDescription = description || `${tagline}. ${products.length} produk te
     <div class="container-page py-10">
       <Breadcrumb
         items={[
-          { label: 'Beranda', href: '/' },
-          { label: 'Produk', href: '/produk' },
+          { label: 'Beranda', href: pagePath('') },
+          { label: 'Produk', href: pagePath('produk') },
           { label: name },
         ]}
       />
@@ -77,7 +83,7 @@ const pageDescription = description || `${tagline}. ${products.length} produk te
           {others.map((entry) => (
             <li>
               <a
-                href={`/kategori/${entry.id}`}
+                href={categoryPath(entry.id)}
                 class="rounded-full border border-soil-300 bg-white px-4 py-2 text-sm font-semibold text-soil-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
               >
                 {entry.data.emoji} {entry.data.name}

@@ -448,6 +448,24 @@ kustom maupun `*.pages.dev`, jadi `base` di `astro.config.mjs` tetap `/`
 dan aset `/_astro/…` selalu benar. Tidak ada `CNAME` atau `.nojekyll`
 yang perlu ikut dalam repo.
 
+#### Trailing slash
+
+Cloudflare Pages menyajikan `dist/path/index.html` sebagai `/path/` dan
+me-redirect `/path` ke `/path/` dengan 307. Agar canonical, sitemap, dan
+tautan internal tidak kena redirect, `trailingSlash: 'always'` dipakai
+dan semua URL internal dibuat lewat helper:
+
+| Helper | Keluaran |
+| --- | --- |
+| `pagePath('')` | `/` |
+| `pagePath('produk')` | `/produk/` |
+| `productPath(id)` | `/produk/<id>/` |
+| `categoryPath(id)` | `/kategori/<id>/` |
+
+Helper ini dipakai di header, footer, breadcrumb, kartu produk, dan CTA.
+Menulis path secara manual berisiko besar karena trailing slash mudah
+terlewat dan gejalanya (307) tidak terlihat di build.
+
 ### 10.4 Variabel Lingkungan
 
 | Variabel | Status | Keterangan |
@@ -583,6 +601,8 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **A-12** | Foto produk terpasang (bukan SVG placeholder) | `src/assets/products/*.jpg` | ✅ 13 |
 | **A-13** | Domain produksi konsisten di canonical/OG/sitemap | grep domain di `dist/` | ✅ `panensegar.jamesq.my.id`, 0 sisa domain contoh |
 | **A-14** | Aset ter-resolve dari path root | `curl -oI /$SITE/_astro/…` | ✅ `base` tetap `/`, benar untuk domain kustom & `pages.dev` |
+| **A-15** | Tidak ada tautan internal tanpa trailing slash | grep `href="/…"` di `dist/`, abaikan yang berekstensi | ✅ 0 dari 21 URL |
+| **A-16** | Tidak ada URL sitemap yang kena redirect | `curl -o /dev/null -w %{http_code}` tiap `<loc>` | ✅ 21/21 `200` tanpa redirect |
 
 ### 13.2 Uji Manual (yang belum bisa diotomatisasi)
 

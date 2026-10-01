@@ -14,7 +14,11 @@ const SITE_URL = process.env.SITE_URL ?? 'https://panensegar.jamesq.my.id';
 
 export default defineConfig({
   site: SITE_URL,
-  trailingSlash: 'never',
+  // Cloudflare Pages menyajikan berkas dari folder sebagai /path/ dan
+  // me-redirect /path ke /path/. Setting 'always' membuat canonical link
+  // dan sitemap memakai bentuk yang sama dengan yang benar-benar dilayani,
+  // sehingga tidak ada satu pun URL sitemap yang kena redirect.
+  trailingSlash: 'always',
   build: {
     format: 'directory',
   },

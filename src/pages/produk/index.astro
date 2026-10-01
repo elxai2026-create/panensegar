@@ -2,7 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
-import { getAvailableProducts, getCategories, getCategoryMap } from '../../lib/catalog';
+import {
+  categoryPath,
+  getAvailableProducts,
+  getCategories,
+  getCategoryMap,
+  pagePath,
+} from '../../lib/catalog';
 const products = await getAvailableProducts();
 const categories = await getCategories();
 const categoryMap = await getCategoryMap();
@@ -33,7 +39,7 @@ const description = `Katalog ${products.length} produk hasil panen: ${categories
   <div class="container-page py-10">
     <nav aria-label="Filter kategori" class="flex flex-wrap gap-2">
       <a
-        href="/produk"
+        href={pagePath("produk")}
         aria-current="page"
         class="rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white"
       >
@@ -42,7 +48,7 @@ const description = `Katalog ${products.length} produk hasil panen: ${categories
       {
         categories.map((category) => (
           <a
-            href={`/kategori/${category.id}`}
+            href={categoryPath(category.id)}
             class="rounded-full border border-soil-300 bg-white px-4 py-2 text-sm font-semibold text-soil-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
           >
             {category.data.emoji} {category.data.name} ({counts.get(category.id) ?? 0})
