@@ -1,0 +1,23 @@
+{
+  "name": "Bawang Putih",
+  "summary": "Bawang putih kering dengan aroma kuat.",
+  "description": "Dijemur lalu dipisah kulitnya, aromanya masih kuat dan tidak berbau tengam. Cocok untuk tumis, sambal, kaldu, sampai bahan jamu. Dikemas per kilogram dalam plastik kedap udara.",
+  "category": "umbi",
+  "price": 42000,
+  "unit": "kg",
+  "minOrder": "2 kg",
+  "stockNote": "Stok tersedia sepanjang tahun",
+  "photos": [
+    "../../assets/products/bawang-putih.jpg"
+  ],
+  "featured": false,
+  "popular": true,
+  "available": true,
+  "tags": [
+    "kering",
+    "aroma kuat",
+    "jamu"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 130
+}

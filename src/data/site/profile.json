@@ -1,0 +1,122 @@
+{
+  "brand": {
+    "name": "Panen Segar",
+    "legalName": "CV Tani Sejahtera Bersama",
+    "tagline": "Panen langsung dari petani",
+    "logo": "../../assets/brand/logo.svg",
+    "favicon": "/favicon.svg"
+  },
+  "seo": {
+    "title": "Panen Segar — Jual Sayur, Buah, dan Beras Segar",
+    "description": "Jual hasil panen segar langsung dari petani: sayur, buah, beras, umbi-umbian, dan rempah. Harga terbuka, order mudah lewat WhatsApp.",
+    "ogImage": "../../assets/brand/hero.jpg"
+  },
+  "contact": {
+    "whatsapp": "6281234567890",
+    "email": "halo@panensegar.example.com",
+    "address": {
+      "line1": "Kp. Sukamaju RT 04 RW 02",
+      "line2": "Samping jembatan bambu",
+      "village": "Desa Sukamaju",
+      "district": "Kecamatan Cibadak",
+      "city": "Kabupaten Sukabumi",
+      "province": "Jawa Barat",
+      "postcode": "43191"
+    },
+    "mapsUrl": "https://maps.google.com/?q=Sukamaju,Cibadak,Sukabumi",
+    "businessHours": [
+      {
+        "label": "Senin - Jumat",
+        "hours": "06.00 - 17.00 WIB"
+      },
+      {
+        "label": "Sabtu",
+        "hours": "06.00 - 14.00 WIB"
+      },
+      {
+        "label": "Minggu",
+        "hours": "Libur, pesanan grosir tetap dilayani"
+      }
+    ]
+  },
+  "whatsapp": {
+    "greeting": "Halo {brand}, saya tertarik dengan {produk}. Apakah masih tersedia?",
+    "greetingUmum": "Halo {brand}, saya ingin menanyakan produk yang tersedia hari ini. Mohon info harga dan stoknya ya."
+  },
+  "hero": {
+    "headline": "Sayur dan Buah Segar, Dipanen Hari Ini",
+    "subheadline": "Harga terbuka, tanpa perantara. Order lewat WhatsApp, dikirim ke rumah, warung, atau gudang Anda.",
+    "primaryCta": "Lihat Katalog",
+    "secondaryCta": "Tentang Kami",
+    "image": "../../assets/brand/hero.jpg"
+  },
+  "about": {
+    "summary": "Panen Segar memetik hasil panen sendiri dari lahan di wilayah Cibadak, lalu menjualnya langsung kepada rumah tangga, warung, dan pengepul. Tidak ada perantara di antara kebun dan pembeli, jadi harga yang Anda terima adalah harga langsung dari kebun.",
+    "story": [
+      "Panen Segar berdiri pada 2015 dari sebuah kebun kecil di Desa Sukamaju. Awalnya kami hanya menjual hasil panen sendiri ke tetangga sekitar: memetik pagi hari, menimbang, lalu mengantar pagi itu juga.",
+      "Banyak pembeli bertanya kenapa produk kami lebih segar dan lebih murah daripada pasar. Jawabannya tetap sama sampai hari ini: produk tidak disimpan lebih dari satu malam, dan rantai pasok tidak lewat tiga perantara.",
+      "Sekarang kami melayani lebih dari 90 rumah tangga, 25 warung, dan 8 pengepul dalam seminggu. Lahan kami berkembang menjadi 4,5 hektare, dilengkapi gudang pengering untuk beras dan rempah."
+    ],
+    "vision": "Menjadi sumber hasil pertanian lokal yang bisa dipercaya oleh rumah tangga maupun pelaku usaha kecil di Jawa Barat.",
+    "mission": [
+      "Menjual produk segar dengan harga yang jelas dan bisa dipertanggungjawabkan.",
+      "Membayar petani mitra dengan harga yang adil dan tepat waktu.",
+      "Memperpendek jarak dari kebun ke pembeli agar kesegaran terjaga.",
+      "Memberi ruang bagi pembeli grosir untuk bernegosiasi langsung."
+    ],
+    "highlights": [
+      {
+        "title": "Panen Pagi, Kirim Hari Ini",
+        "description": "Tidak ada produk yang disimpan lebih dari satu malam.",
+        "emoji": "🌅"
+      },
+      {
+        "title": "Harga Terbuka",
+        "description": "Harga kami cantumkan apa adanya, tanpa biaya tersembunyi.",
+        "emoji": "🏷️"
+      },
+      {
+        "title": "Bisa Grosir",
+        "description": "Minimal pembelian disesuaikan untuk warung dan pengepul.",
+        "emoji": "📦"
+      },
+      {
+        "title": "Petani Mitra Dibayar Adil",
+        "description": "Harga pembelian dari petani kami tetapkan sebelum menjual.",
+        "emoji": "🤝"
+      }
+    ],
+    "stats": [
+      {
+        "value": "4,5 ha",
+        "label": "Luas lahan yang dikelola"
+      },
+      {
+        "value": "11 tahun",
+        "label": "Melayani pembeli sejak 2015"
+      },
+      {
+        "value": "13+",
+        "label": "Jenis produk tiap panen"
+      },
+      {
+        "value": "95%",
+        "label": "Pembeli order ulang"
+      }
+    ],
+    "certifications": [
+      "Sertifikat PIRT (nomor 2023-118-0456-772)",
+      "GAP (Good Agricultural Practice)"
+    ],
+    "markets": [
+      "Kota Sukabumi dan sekitarnya",
+      "Wilayah Jabodetabek dengan pengiriman harian",
+      "Pengepul grosir di Bandung dan Bogor"
+    ],
+    "foundedYear": 2015
+  },
+  "closing": {
+    "title": "Punya kebutuhan grosir atau ritel?",
+    "description": "Ceritakan kebutuhan Anda lewat WhatsApp. Kami balas pada jam kerja dengan info ketersediaan stok dan penawaran harga."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Brokoli",
+  "summary": "Brokoli hijau dengan kuncup bunga rapat dan segar.",
+  "description": "Warna hijau pekat dan kuncup bunga yang masih rapat menandakan panen dilakukan pada waktu yang tepat. Dipilih yang batangnya pendek dan padat agar tidak banyak terbuang saat diolah.",
+  "category": "sayur",
+  "price": 18000,
+  "unit": "kg",
+  "minOrder": "3 kg",
+  "stockNote": "Panen 3 kali seminggu",
+  "photos": [
+    "../../assets/products/brokoli.jpg"
+  ],
+  "featured": false,
+  "popular": false,
+  "available": true,
+  "tags": [
+    "serat",
+    "kukus",
+    "diet"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 50
+}

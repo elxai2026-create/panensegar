@@ -1,0 +1,23 @@
+{
+  "name": "Tomat Cherry",
+  "summary": "Tomat cherry kecil yang manis, enak dimakan langsung.",
+  "description": "Tomat cherry dengan kadar gula tinggi karena dipanen saat matang penuh di pohon. Berukuran sekitar 2 sampai 3 cm per buah, enak dimakan langsung sebagai camilan sehat atau ditambahkan ke salad.",
+  "category": "sayur",
+  "price": 28000,
+  "unit": "kg",
+  "minOrder": "2 kg",
+  "stockNote": "Panen 2 kali seminggu",
+  "photos": [
+    "../../assets/products/tomat-cherry.jpg"
+  ],
+  "featured": true,
+  "popular": false,
+  "available": true,
+  "tags": [
+    "manis",
+    "salad",
+    "camilan"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 20
+}

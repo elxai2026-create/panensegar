@@ -1,0 +1,23 @@
+{
+  "name": "Bawang Merah",
+  "summary": "Bawang merah kering yang tahan disimpan berbulan-bulan.",
+  "description": "Dijemur hingga kadar airnya rendah lalu disimpan di gudang berventilasi. Lapisan yang kering membuatnya lebih tahan disimpan tanpa cepat layu atau berjamur.",
+  "category": "umbi",
+  "price": 38000,
+  "unit": "kg",
+  "minOrder": "5 kg",
+  "stockNote": "Stok tersedia sepanjang tahun",
+  "photos": [
+    "../../assets/products/bawang-merah.jpg"
+  ],
+  "featured": true,
+  "popular": true,
+  "available": true,
+  "tags": [
+    "kering",
+    "tahan simpan",
+    "bumbu dasar"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 120
+}

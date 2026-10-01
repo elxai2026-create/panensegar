@@ -1,0 +1,167 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import WaIcon from './WaIcon.astro';
+
+interface Brand {
+  name: string;
+  tagline: string;
+  logo?: ImageMetadata;
+}
+
+interface Props {
+  brand: Brand;
+  currentPath: string;
+  waHref: string;
+}
+
+const { brand, currentPath, waHref } = Astro.props;
+
+const links = [
+  { href: '/', label: 'Beranda' },
+  { href: '/produk', label: 'Produk' },
+  { href: '/tentang-kami', label: 'Tentang Kami' },
+];
+
+/** Aktif bila path saat ini sama persis atau merupakan induk dari link. */
+function isActive(href: string, path: string): boolean {
+  return href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`);
+}
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-soil-100 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/75"
+>
+  <div class="container-page">
+    <div class="flex h-16 items-center justify-between gap-4">
+      <a href="/" class="flex shrink-0 items-center gap-2.5" aria-label={`${brand.name} — beranda`}>
+        {
+          brand.logo ? (
+            <Image
+              src={brand.logo}
+              alt=""
+              width={36}
+              height={36}
+              class="h-9 w-9"
+              loading="eager"
+            />
+          ) : (
+            <span class="grid h-9 w-9 place-items-center rounded-full bg-brand-600 text-lg text-white">
+              🌿
+            </span>
+          )
+        }
+        <span class="flex flex-col leading-tight">
+          <span class="text-base font-extrabold tracking-tight">{brand.name}</span>
+          <span class="hidden text-[0.7rem] text-soil-500 sm:block">{brand.tagline}</span>
+        </span>
+      </a>
+
+      <nav aria-label="Navigasi utama" class="hidden md:block">
+        <ul class="flex items-center gap-1">
+          {
+            links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  aria-current={isActive(link.href, currentPath) ? 'page' : undefined}
+                  class:list={[
+                    'rounded-full px-3.5 py-2 text-sm font-semibold transition',
+                    isActive(link.href, currentPath)
+                      ? 'bg-brand-50 text-brand-700'
+                      : 'text-soil-700 hover:bg-brand-50 hover:text-brand-700',
+                  ]}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href={waHref} target="_blank" rel="noopener" class="btn-wa hidden px-4 py-2 text-sm sm:inline-flex">
+          <WaIcon />
+          Pesan via WA
+        </a>
+
+        <button
+          type="button"
+          class="grid h-10 w-10 place-items-center rounded-full text-soil-700 transition hover:bg-brand-50 md:hidden"
+          aria-label="Buka menu navigasi"
+          aria-expanded="false"
+          aria-controls="menu-mobile"
+          data-menu-toggle
+        >
+          <svg
+            class="h-6 w-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path data-icon-line d="M4 7h16M4 12h16M4 17h16"></path>
+            <path data-icon-x class="hidden" d="M6 6l12 12M18 6L6 18"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="menu-mobile" class="hidden border-t border-soil-100 bg-white md:hidden">
+    <nav aria-label="Navigasi seluler" class="container-page">
+      <ul class="flex flex-col py-2">
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={isActive(link.href, currentPath) ? 'page' : undefined}
+                class:list={[
+                  'block rounded-lg px-3 py-3 font-semibold transition',
+                  isActive(link.href, currentPath)
+                    ? 'bg-brand-50 text-brand-700'
+                    : 'text-soil-700 hover:bg-brand-50',
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="px-3 py-2 sm:hidden">
+          <a href={waHref} target="_blank" rel="noopener" class="btn-wa w-full px-4 py-2 text-sm">
+            <WaIcon />
+            Pesan via WhatsApp
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.getElementById('menu-mobile');
+  const line = document.querySelector<SVGPathElement>('[data-icon-line]');
+  const x = document.querySelector<SVGPathElement>('[data-icon-x]');
+
+  function setOpen(open: boolean) {
+    if (!toggle || !menu) return;
+    menu.classList.toggle('hidden', !open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Tutup menu navigasi' : 'Buka menu navigasi');
+    line?.classList.toggle('hidden', open);
+    x?.classList.toggle('hidden', !open);
+  }
+
+  toggle?.addEventListener('click', () => {
+    setOpen(menu?.classList.contains('hidden') ?? true);
+  });
+
+  // Tutup menu setiap navigasi selesai.
+  window.addEventListener('astro:before-swap', () => setOpen(false));
+</script>

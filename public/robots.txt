@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Halaman admin CMS tidak perlu diindeks.
+Disallow: /admin/
+
+Sitemap: https://panensegar.example.com/sitemap-index.xml

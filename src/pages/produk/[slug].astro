@@ -1,0 +1,176 @@
+---
+import { Image } from 'astro:assets';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import WAButton from '../../components/WAButton.astro';
+import { getAvailableProducts, getCategoryMap, getSiteProfile } from '../../lib/catalog';
+import { formatDate, formatPrice } from '../../lib/format';
+import { buildProductSchema } from '../../lib/schema';
+
+export const getStaticPaths = (async () => {
+  const products = await getAvailableProducts();
+  return products.map((product) => ({ params: { slug: product.id }, props: { product } }));
+}) satisfies GetStaticPaths;
+
+const { product } = Astro.props;
+const { name, summary, description, price, unit, minOrder, stockNote, photos, tags, available, updatedAt } =
+  product.data;
+
+const profile = await getSiteProfile();
+const categoryMap = await getCategoryMap();
+const category = categoryMap.get(product.data.category);
+
+const pageUrl = new URL(`/produk/${product.id}`, Astro.site);
+
+const related = (await getAvailableProducts())
+  .filter((entry) => entry.data.category === product.data.category && entry.id !== product.id)
+  .slice(0, 3);
+
+const productSchema = buildProductSchema(
+  profile,
+  {
+    name,
+    description: description || summary,
+    sku: product.id,
+    image: new URL(photos[0].src, Astro.site).toString(),
+    price,
+    available,
+    updatedAt,
+  },
+  pageUrl,
+);
+---
+
+<BaseLayout title={name} description={summary}>
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} slot="head" />
+
+  <div class="container-page py-8">
+    <Breadcrumb
+      items={[
+        { label: 'Beranda', href: '/' },
+        { label: 'Produk', href: '/produk' },
+        ...(category
+          ? [{ label: category.data.name, href: `/kategori/${category.id}` }]
+          : []),
+        { label: name },
+      ]}
+    />
+
+    <div class="mt-8 grid gap-10 lg:grid-cols-2">
+      <div>
+        <div class="overflow-hidden rounded-3xl border border-soil-100 bg-brand-50">
+          <Image
+            src={photos[0]}
+            alt={`${name} yang dijual ${profile.brand.name}`}
+            width={800}
+            height={800}
+            loading="eager"
+            fetchpriority="high"
+            class="aspect-square w-full object-cover"
+          />
+        </div>
+
+        {
+          photos.length > 1 && (
+            <ul class="mt-3 grid grid-cols-4 gap-3">
+              {photos.slice(1, 5).map((photo, i) => (
+                <li class="overflow-hidden rounded-xl border border-soil-100 bg-brand-50">
+                  <Image
+                    src={photo}
+                    alt={`${name} - foto ${i + 2}`}
+                    width={200}
+                    height={200}
+                    loading="lazy"
+                    class="aspect-square w-full object-cover"
+                  />
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+
+      <div>
+        {
+          category && (
+            <a
+              href={`/kategori/${category.id}`}
+              class="text-sm font-semibold text-brand-600 hover:underline"
+            >
+              {category.data.emoji} {category.data.name}
+            </a>
+          )
+        }
+
+        <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">{name}</h1>
+        <p class="prose-desc mt-3 text-lg">{summary}</p>
+
+        <div class="mt-6 rounded-2xl border border-brand-100 bg-brand-50 p-5">
+          <p class="text-3xl font-extrabold text-brand-700">{formatPrice(price, unit)}</p>
+          <dl class="mt-4 space-y-2 text-sm">
+            {minOrder && (
+              <div class="flex justify-between gap-4">
+                <dt class="text-soil-500">Minimal order</dt>
+                <dd class="font-semibold">{minOrder}</dd>
+              </div>
+            )}
+            <div class="flex justify-between gap-4">
+              <dt class="text-soil-500">Ketersediaan</dt>
+              <dd class="font-semibold text-brand-700">
+                {available ? (stockNote || 'Tersedia') : 'Habis, cek jadwal panen'}
+              </dd>
+            </div>
+            </dl>
+        </div>
+
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          <WAButton productName={name} label="Pesan" />
+          <a href="/produk" class="btn-ghost">Lihat produk lain</a>
+        </div>
+
+        {
+          description && (
+            <section class="mt-8">
+              <h2 class="font-bold">Tentang produk ini</h2>
+              <p class="prose-desc mt-2">{description}</p>
+            </section>
+          )
+        }
+
+        {
+          tags.length > 0 && (
+            <ul class="mt-6 flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <li class="rounded-full bg-soil-100 px-3 py-1 text-xs font-semibold text-soil-700">
+                  #{tag}
+                </li>
+              ))}
+            </ul>
+          )
+        }
+
+        <p class="mt-6 text-xs text-soil-500">
+          Harga terakhir diperbarui {formatDate(updatedAt)}. Harga dapat berubah mengikuti musim,
+          konfirmasi harga terkini lewat WhatsApp.
+        </p>
+      </div>
+    </div>
+
+    {
+      related.length > 0 && (
+        <section class="mt-16 border-t border-soil-100 pt-12">
+          <h2 class="section-title">Produk lain di {category?.data.name ?? 'kategori ini'}</h2>
+          <ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((entry) => (
+              <li>
+                <ProductCard product={entry} category={categoryMap.get(entry.data.category)} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>

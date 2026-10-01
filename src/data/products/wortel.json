@@ -1,0 +1,23 @@
+{
+  "name": "Wortel",
+  "summary": "Wortel manis dan renyah dari kebun sendiri.",
+  "description": "Dipanen langsung dari kebun dengan ukuran sedang sampai besar dan warna oranye pekat. Rasa manis alami dengan tekstur renyah, cocok untuk jus, sup, tumis, atau dimakan mentah.",
+  "category": "sayur",
+  "price": 14000,
+  "unit": "kg",
+  "minOrder": "5 kg",
+  "stockNote": "Panen mingguan",
+  "photos": [
+    "../../assets/products/wortel.jpg"
+  ],
+  "featured": false,
+  "popular": false,
+  "available": true,
+  "tags": [
+    "serat",
+    "jus",
+    "sup"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 30
+}

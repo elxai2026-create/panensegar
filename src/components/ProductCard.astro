@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import type { Category, Product } from '../lib/catalog';
+import { productPath } from '../lib/catalog';
+import { formatPrice } from '../lib/format';
+import WAButton from './WAButton.astro';
+
+interface Props {
+  product: Product;
+  category?: Category;
+  /** Minimal layar pertama memuat eager, sisanya lazy. */
+  priority?: boolean;
+}
+
+const { product, category, priority = false } = Astro.props;
+const { name, summary, price, unit, photos, minOrder, stockNote, available } = product.data;
+const href = productPath(product.id);
+---
+
+<article
+  class="card group relative flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:shadow-card-hover"
+>
+  <a
+    href={href}
+    class="relative block aspect-square overflow-hidden bg-brand-50"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <Image
+      src={photos[0]}
+      alt={name}
+      width={400}
+      height={400}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+    />
+    {
+      !available && (
+        <span class="absolute top-3 left-3 rounded-full bg-soil-900/85 px-3 py-1 text-xs font-bold text-white">
+          Habis
+        </span>
+      )
+    }
+  </a>
+
+  <div class="flex flex-1 flex-col gap-3 p-4">
+    {
+      category && (
+        <a
+          href={`/kategori/${category.id}`}
+          class="relative z-10 self-start text-xs font-semibold tracking-wide text-brand-600 hover:underline"
+        >
+          {category.data.name}
+        </a>
+      )
+    }
+
+    <h3 class="text-base leading-snug font-bold text-balance">
+      <a href={href} class="hover:text-brand-700">
+        <span class="absolute inset-0" aria-hidden="true"></span>
+        {name}
+      </a>
+    </h3>
+
+    <p class="text-sm leading-relaxed text-pretty text-soil-700">{summary}</p>
+
+    <div class="mt-auto space-y-1 border-t border-soil-100 pt-3">
+      <p class="text-lg font-extrabold text-brand-700">{formatPrice(price, unit)}</p>
+      <p class="text-xs text-soil-500">
+        {stockNote || (minOrder ? `Minimal order ${minOrder}` : 'Siap kirim sesuai pesanan')}
+      </p>
+    </div>
+
+    {/* relative z-10 lifted di atas tautan judul agar tombol tetap bisa diklik. */}
+    <div class="relative z-10">
+      <WAButton productName={name} label="Pesan" size="sm" />
+    </div>
+  </div>
+</article>

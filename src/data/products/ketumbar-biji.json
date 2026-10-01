@@ -1,0 +1,23 @@
+{
+  "name": "Ketumbar Biji",
+  "summary": "Biji ketumbar aromatik, bisa utuh atau digiling.",
+  "description": "Aromanya kuat dan kadar minyaknya masih tinggi. Bisa dikirim dalam bentuk biji utuh, atau disangrai dan digiling halus agar lebih cepat meresap ke bumbu.",
+  "category": "rempah",
+  "price": 45000,
+  "unit": "kg",
+  "minOrder": "1 kg",
+  "stockNote": "Stok mingguan",
+  "photos": [
+    "../../assets/products/ketumbar-biji.jpg"
+  ],
+  "featured": false,
+  "popular": false,
+  "available": true,
+  "tags": [
+    "biji utuh",
+    "giling",
+    "aroma kuat"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 110
+}

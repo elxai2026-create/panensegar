@@ -1,0 +1,241 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import WAButton from '../components/WAButton.astro';
+import {
+  getAvailableProducts,
+  getCategories,
+  getCategoryMap,
+  getFeaturedProducts,
+  getPopularProducts,
+  getSiteProfile,
+} from '../lib/catalog';
+
+const profile = await getSiteProfile();
+const { brand, hero, about } = profile;
+
+const popular = await getPopularProducts(6);
+const featured = await getFeaturedProducts(6);
+const allProducts = await getAvailableProducts();
+const categories = await getCategories();
+const categoryMap = await getCategoryMap();
+const latest = allProducts.slice(-3).reverse();
+const closingLabel = 'Siap order?';
+---
+
+<BaseLayout description={profile.seo.description} ogImage={profile.seo.ogImage}>
+  <section class="relative overflow-hidden bg-gradient-to-b from-brand-50 to-white">
+    <div class="container-page grid items-center gap-10 py-14 lg:grid-cols-2 lg:py-20">
+      <div>
+        <p class="eyebrow">{brand.tagline}</p>
+        <h1 class="mt-3 text-4xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-5xl">
+          {hero.headline}
+        </h1>
+        <p class="prose-desc mt-5 max-w-xl text-lg">{hero.subheadline}</p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="/produk" class="btn-primary text-base">{hero.primaryCta}</a>
+          <WAButton size="lg" label={hero.primaryCta.replace('Lihat', 'Pesan')} />
+        </div>
+
+        <dl class="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-brand-100 pt-6">
+          {
+            about.stats.slice(0, 3).map((stat) => (
+              <div>
+                <dt class="sr-only">{stat.label}</dt>
+                <dd class="text-2xl font-extrabold text-brand-700">{stat.value}</dd>
+                <p class="mt-0.5 text-xs leading-snug text-soil-500">{stat.label}</p>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      {
+        hero.image && (
+          <div class="order-first lg:order-last">
+            <Image
+              src={hero.image}
+              alt="Lahan Panen Segar pada pagi hari"
+              width={1600}
+              height={900}
+              loading="eager"
+              fetchpriority="high"
+              class="w-full rounded-3xl border border-brand-100 shadow-card"
+            />
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="container-page py-14">
+    <SectionHeading
+      eyebrow="Kategori"
+      title="Belanja sesuai kebutuhan"
+      description="Lima kategori yang paling sering dipesan. Pilih satu untuk melihat seluruh varian dan harganya."
+    />
+
+    <ul class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      {
+        categories.map((category) => (
+          <li>
+            <a
+              href={`/kategori/${category.id}`}
+              class="card group flex h-full flex-col items-center gap-2 p-5 text-center hover:-translate-y-0.5 hover:shadow-card-hover"
+            >
+              <span class="text-3xl" aria-hidden="true">
+                {category.data.emoji}
+              </span>
+              <span class="text-sm font-bold text-balance group-hover:text-brand-700">
+                {category.data.name}
+              </span>
+              <span class="text-xs text-soil-500">
+                {allProducts.filter((p) => p.data.category === category.id).length} produk
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  {
+    popular.length > 0 && (
+      <section class="border-y border-soil-100 bg-brand-50/40 py-14">
+        <div class="container-page">
+          <SectionHeading
+            eyebrow="Terlaris"
+            title="Produk sering dipesan"
+            description="Produk yang paling banyak diminati pelanggan kami."
+          />
+
+          <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {popular.map((product, index) => (
+              <li>
+                <ProductCard
+                  product={product}
+                  category={categoryMap.get(product.data.category)}
+                  priority={index < 3}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    featured.length > 0 && (
+      <section class="py-14">
+        <div class="container-page">
+          <SectionHeading
+            eyebrow="Pilihan Kami"
+            title="Produk unggulan"
+            description="Rekomendasi kami untuk hari ini."
+          />
+
+          <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((product, index) => (
+              <li>
+                <ProductCard
+                  product={product}
+                  category={categoryMap.get(product.data.category)}
+                  priority={index < 3}
+                />
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-10 text-center">
+            <a href="/produk" class="btn-ghost">
+              Lihat semua {allProducts.length} produk
+            </a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="container-page grid gap-10 py-14 lg:grid-cols-2 lg:items-center">
+    <div>
+      <SectionHeading eyebrow="Kenapa Kami" title="Alasan pembeli memilih kami" />
+      <ul class="mt-8 grid gap-5 sm:grid-cols-2">
+        {
+          about.highlights.map((highlight) => (
+            <li class="card flex flex-col gap-3 p-6">
+              <span class="text-2xl" aria-hidden="true">
+                {highlight.emoji}
+              </span>
+              <h3 class="font-bold text-balance">{highlight.title}</h3>
+              <p class="text-sm leading-relaxed text-soil-700">{highlight.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="order-first lg:order-last">
+      <Image
+        src={import('../assets/brand/farm.jpg')}
+        alt="Lahan sayur segar Panen Segar"
+        width={1200}
+        height={800}
+        loading="lazy"
+        class="w-full rounded-3xl border border-brand-100 shadow-card"
+      />
+    </div>
+  </section>
+
+  <section class="container-page pb-4">
+    <div
+      class="grid items-center gap-8 rounded-3xl bg-brand-900 p-8 text-brand-50 sm:p-12 lg:grid-cols-2"
+    >
+      <div>
+        <p class="eyebrow text-brand-300">{closingLabel}</p>
+        <h2 class="mt-3 text-2xl font-bold text-balance sm:text-3xl">{profile.closing.title}</h2>
+        <p class="mt-4 max-w-lg leading-relaxed text-brand-100/85">
+          {profile.closing.description}
+        </p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <WAButton size="lg" />
+          <a href="/tentang-kami" class="btn-ghost border-white/25 bg-white/5 text-white hover:bg-white/10">
+            Kenali kami
+          </a>
+        </div>
+      </div>
+
+      <dl class="grid grid-cols-2 gap-4">
+        {
+          about.stats.map((stat) => (
+            <div class="rounded-2xl bg-white/5 p-4">
+              <dt class="text-2xl font-extrabold text-brand-200">{stat.value}</dt>
+              <dd class="mt-1 text-xs leading-snug text-brand-100/75">{stat.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  {
+    latest.length > 0 && (
+      <section class="container-page py-14">
+        <SectionHeading
+          eyebrow="Baru Dipanen"
+          title="Panen terakhir"
+          description="Produk yang baru saja masuk dari lahan."
+        />
+        <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {latest.map((product) => (
+            <li>
+              <ProductCard product={product} category={categoryMap.get(product.data.category)} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

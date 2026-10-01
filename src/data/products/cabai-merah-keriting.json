@@ -1,0 +1,23 @@
+{
+  "name": "Cabai Merah Keriting",
+  "summary": "Cabai merah keriting segar, pedas aromatik, dipanen setiap 3 hari.",
+  "description": "Dipanen dari lahan kami setiap tiga hari sehingga stok selalu tersedia dan warnanya merah pekat. Dipetik saat matang penuh, disortir, lalu dibersihkan satu per satu sebelum dikirim.",
+  "category": "sayur",
+  "price": 32000,
+  "unit": "kg",
+  "minOrder": "5 kg",
+  "stockNote": "Panen tiap 3 hari, stok selalu tersedia",
+  "photos": [
+    "../../assets/products/cabai-merah-keriting.jpg"
+  ],
+  "featured": true,
+  "popular": true,
+  "available": true,
+  "tags": [
+    "pedas",
+    "sambal",
+    "panen segar"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 10
+}

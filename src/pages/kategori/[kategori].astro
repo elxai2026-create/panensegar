@@ -1,0 +1,91 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getAvailableProducts, getCategories, getCategoryMap } from '../../lib/catalog';
+
+export const getStaticPaths = (async () => {
+  const categories = await getCategories();
+  return categories.map((category) => ({ params: { kategori: category.id }, props: { category } }));
+}) satisfies GetStaticPaths;
+
+const { category } = Astro.props;
+const { name, tagline, description, emoji, accent } = category.data;
+
+const categoryMap = await getCategoryMap();
+const allProducts = await getAvailableProducts();
+const products = allProducts.filter(({ data }) => data.category === category.id);
+
+const others = (await getCategories()).filter((entry) => entry.id !== category.id);
+
+const title = name;
+const pageDescription = description || `${tagline}. ${products.length} produk tersedia di ${name}.`;
+---
+
+<BaseLayout title={title} description={pageDescription}>
+  <section class="border-b border-soil-100" style={`background: linear-gradient(180deg, ${accent}14, transparent)`}>
+    <div class="container-page py-10">
+      <Breadcrumb
+        items={[
+          { label: 'Beranda', href: '/' },
+          { label: 'Produk', href: '/produk' },
+          { label: name },
+        ]}
+      />
+
+      <div class="mt-4 flex items-start gap-4">
+        <span class="text-4xl leading-none sm:text-5xl" aria-hidden="true">{emoji}</span>
+        <div>
+          <h1 class="text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">{name}</h1>
+          {tagline && <p class="mt-1 font-semibold" style={`color: ${accent}`}>{tagline}</p>}
+          {pageDescription && <p class="prose-desc mt-3 max-w-2xl">{pageDescription}</p>}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-page py-10">
+    {
+      products.length === 0 ? (
+        <p class="text-center text-soil-500">
+          Belum ada produk di kategori ini. Silakan lihat kategori lain.
+        </p>
+      ) : (
+        <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((product, index) => (
+            <li>
+              <ProductCard
+                product={product}
+                category={categoryMap.get(product.data.category)}
+                priority={index < 3}
+              />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+
+  {
+    others.length > 0 && (
+      <section class="container-page pb-6">
+        <h2 class="text-sm font-bold tracking-widest text-soil-500 uppercase">
+          Kategori lainnya
+        </h2>
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {others.map((entry) => (
+            <li>
+              <a
+                href={`/kategori/${entry.id}`}
+                class="rounded-full border border-soil-300 bg-white px-4 py-2 text-sm font-semibold text-soil-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+              >
+                {entry.data.emoji} {entry.data.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

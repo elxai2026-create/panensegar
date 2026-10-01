@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getAvailableProducts, getCategories, getCategoryMap } from '../../lib/catalog';
+const products = await getAvailableProducts();
+const categories = await getCategories();
+const categoryMap = await getCategoryMap();
+
+const counts = new Map<string, number>();
+for (const { data } of products) {
+  counts.set(data.category, (counts.get(data.category) ?? 0) + 1);
+}
+
+const title = 'Semua Produk';
+const description = `Katalog ${products.length} produk hasil panen: ${categories
+  .map((category) => category.data.name.toLowerCase())
+  .join(', ')}. Harga retail terbuka, tersedia harga grosir via WhatsApp.`;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="border-b border-soil-100 bg-brand-50/50">
+    <div class="container-page py-10">
+      <Breadcrumb items={[{ label: 'Beranda', href: '/' }, { label: title }]} />
+      <h1 class="mt-4 text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">{title}</h1>
+      <p class="prose-desc mt-3 max-w-2xl">
+        {products.length} produk tersedia. Harga di bawah adalah harga ritel per satuan. Untuk
+        pembelian grosir, chat WhatsApp kami dan sebutkan jumlah yang Anda butuhkan.
+      </p>
+    </div>
+  </section>
+
+  <div class="container-page py-10">
+    <nav aria-label="Filter kategori" class="flex flex-wrap gap-2">
+      <a
+        href="/produk"
+        aria-current="page"
+        class="rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white"
+      >
+        Semua ({products.length})
+      </a>
+      {
+        categories.map((category) => (
+          <a
+            href={`/kategori/${category.id}`}
+            class="rounded-full border border-soil-300 bg-white px-4 py-2 text-sm font-semibold text-soil-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+          >
+            {category.data.emoji} {category.data.name} ({counts.get(category.id) ?? 0})
+          </a>
+        ))
+      }
+    </nav>
+
+    <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        products.map((product, index) => (
+          <li>
+            <ProductCard
+              product={product}
+              category={categoryMap.get(product.data.category)}
+              priority={index < 3}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>

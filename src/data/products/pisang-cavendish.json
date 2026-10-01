@@ -1,0 +1,23 @@
+{
+  "name": "Pisang Cavendish",
+  "summary": "Pisang cavendish matang pohon, manis legit dan bebas flek.",
+  "description": "Dipanen saat matang di pohon, bukan dimatangkan dengan gas, sehingga rasa manisnya sudah berkembang penuh dan aman dimakan langsung. Dikirim per tandan dengan daun masih terpasang untuk menjaga tampilan.",
+  "category": "buah",
+  "price": 22000,
+  "unit": "tandan",
+  "minOrder": "1 tandan",
+  "stockNote": "Panen 2 kali seminggu",
+  "photos": [
+    "../../assets/products/pisang-cavendish.jpg"
+  ],
+  "featured": true,
+  "popular": false,
+  "available": true,
+  "tags": [
+    "matang pohon",
+    "camilan",
+    "jual per tandan"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 60
+}

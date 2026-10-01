@@ -1,0 +1,50 @@
+---
+import WaIcon from './WaIcon.astro';
+import { getSiteProfile } from '../lib/catalog';
+import { fillGreeting, waLink } from '../lib/whatsapp';
+
+interface Props {
+  /**
+   * Nama produk yang disisipkan ke pesan sapaan. Kosongkan untuk pesan umum.
+   * Tautan wa.me dibangun di sini supaya call site tidak perlu tahu format pesan.
+   */
+  productName?: string;
+  label?: string;
+  size?: 'sm' | 'md' | 'lg';
+  block?: boolean;
+}
+
+const { productName, label = 'Pesan via WhatsApp', size = 'md', block = false } = Astro.props;
+
+const profile = await getSiteProfile();
+// Tombol yang menyebut produk memakai template dengan {produk}; tombol umum
+// memakai template tanpa nama produk supaya tidak muncul "tertarik dengan .".
+const template = productName ? profile.whatsapp.greeting : profile.whatsapp.greetingUmum;
+const message = fillGreeting(template, {
+  brand: profile.brand.name,
+  produk: productName ?? '',
+});
+const href = waLink(profile.contact.whatsapp, message);
+
+/**
+ * btn-wa hanya menyediakan warna dan bentuk; padding serta ukuran ikon
+ * sepenuhnya milik size di bawah. Pemanggil btn-wa langsung wajib menulis
+ * padding-nya sendiri.
+ */
+const sizes = {
+  sm: 'gap-1.5 px-3 py-1.5 text-xs',
+  md: 'gap-2 px-4 py-2 text-sm',
+  lg: 'gap-2.5 px-5 py-2.5 text-base',
+};
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener"
+  aria-label={productName ? `${label} untuk ${productName}` : label}
+  class:list={['btn-wa', sizes[size], block && 'w-full']}
+>
+  <WaIcon />
+  <span>{label}</span>
+</a>

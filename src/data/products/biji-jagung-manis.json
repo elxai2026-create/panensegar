@@ -1,0 +1,23 @@
+{
+  "name": "Biji Jagung Manis",
+  "summary": "Jagung manis dengan kernel besar, aman dimakan mentah.",
+  "description": "Kernel besar, penuh, dan berwarna kuning cerah. Dipanen saat matang sempurna sehingga kadar gulanya tinggi dan cukup manis untuk dimakan mentah tanpa dimasak.",
+  "category": "beras",
+  "price": 12000,
+  "unit": "kg",
+  "minOrder": "5 kg",
+  "stockNote": "Panen 2 kali seminggu",
+  "photos": [
+    "../../assets/products/biji-jagung-manis.jpg"
+  ],
+  "featured": false,
+  "popular": false,
+  "available": true,
+  "tags": [
+    "manis",
+    "aman dimakan mentah",
+    "kernel"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 100
+}

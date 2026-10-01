@@ -1,0 +1,308 @@
+# Admin Sveltia CMS.
+# Backend: GitHub. Login memakai akun GitHub yang sudah diundang sebagai kolaborator repo ini.
+# Kalau butuh ganti repo, cukup ubah `backend.repo` di bawah.
+
+backend:
+  name: github
+  repo: elxai2026-create/panensegar
+  branch: main
+  base_url: https://oauth.sveltia-cms.app
+
+media_folder: public/uploads
+public_folder: /uploads
+
+# Owner utama: username GitHub pemilik usaha (boleh beberapa, pisahkan koma).
+publish_mode: editorial_workflow
+
+site_url: https://panensegar.example.com
+logo_url: /favicon.svg
+
+collections:
+  # ------------------------------------------------------------------
+  # Produk: satu berkas JSON per produk di src/data/products
+  # ------------------------------------------------------------------
+  - name: products
+    label: Produk
+    label_singular: Produk
+    folder: src/data/products
+    create: true
+    delete: true
+    extension: json
+    format: json
+    identifier_field: name
+    slug: '{{slug}}'
+    summary: '{{name}} - Rp {{price}} / {{unit}}'
+    sortable_fields: [order, name, price, updatedAt]
+    view_filters:
+      - label: Kategori
+        field: category
+        pattern: '{{name}}'
+      - label: Tampilkan di beranda
+        field: featured
+        pattern: '{{true}}'
+      - label: Tersedia
+        field: available
+        pattern: '{{true}}'
+    fields:
+      - label: Nama produk
+        name: name
+        widget: string
+        i18n: false
+      - label: Kategori
+        name: category
+        widget: select
+        options:
+          - { label: Sayur Segar, value: sayur }
+          - { label: Buah Segar, value: buah }
+          - { label: Beras & Biji-bijian, value: beras }
+          - { label: Umbi-umbian, value: umbi }
+          - { label: Rempah, value: rempah }
+      - label: Harga (angka bulat, tanpa titik)
+        name: price
+        widget: number
+        value_type: int
+        min: 0
+        help: 'Contoh: 18500 berarti Rp 18.500 per satuan.
+      - label: Satuan jual
+        name: unit
+        widget: select
+        options: [kg, gram, ikat, tandan, lusin, ijok, karung, dus]
+      - label: Minimal order
+        name: minOrder
+        widget: string
+        required: false
+        hint: 'Contoh: 5 kg. Kosongkan bila tidak ada minimal.
+      - label: Catatan ketersediaan
+        name: stockNote
+        widget: string
+        required: false
+        hint: 'Contoh: Panen tiap 3 hari.
+      - label: Ringkasan (tampil di kartu produk)
+        name: summary
+        widget: text
+      - label: Deskripsi lengkap
+        name: description
+        widget: markdown
+        required: false
+      - label: Foto produk
+        name: photos
+        widget: list
+        field:
+          label: Foto
+          name: photo
+          widget: image
+          media_library:
+            config:
+              multiple: true
+        min: 1
+        hint: Minimal satu foto. Folder src/assets/products dipakai untuk aset bawaan.
+      - label: Tampilkan sebagai unggulan
+        name: featured
+        widget: boolean
+        default: false
+      - label: Sering dipesan
+        name: popular
+        widget: boolean
+        default: false
+        hint: Muncul di section "Produk sering dipesan". Tandai sendiri, tidak ada data order.
+      - label: Tersedia
+        name: available
+        widget: boolean
+        default: true
+        hint: Matikan bila stok habis agar produk hilang dari katalog.
+      - label: Label
+        name: tags
+        widget: list
+        required: false
+      - label: Urutan tampil
+        name: order
+        widget: number
+        value_type: int
+        default: 100
+        hint: Angka kecil tampil lebih dulu.
+      - label: Terakhir diperbarui
+        name: updatedAt
+        widget: datetime
+        date_format: YYYY-MM-DD
+        format: YYYY-MM-DD
+
+  # ------------------------------------------------------------------
+  # Kategori
+  # ------------------------------------------------------------------
+  - name: categories
+    label: Kategori
+    label_singular: Kategori
+    folder: src/data/categories
+    create: true
+    delete: true
+    extension: json
+    format: json
+    identifier_field: name
+    slug: '{{slug}}'
+    summary: '{{name}} ({{order}})'
+    sortable_fields: [order, name]
+    fields:
+      - { label: Nama kategori, name: name, widget: string }
+      - { label: Tagline singkat, name: tagline, widget: string, required: false }
+      - { label: Deskripsi, name: description, widget: markdown, required: false }
+      - label: Ikon (emoji)
+        name: emoji
+        widget: string
+        default: '🌱'
+        hint: Contoh: 🥬 🍊 🌾 🧅 🌶️
+      - label: Warna aksen (hex)
+        name: accent
+        widget: string
+        default: '#3A9A40'
+        hint: Format #RRGGBB, contoh #2E7D32
+      - { label: Urutan tampil, name: order, widget: number, value_type: int, default: 100 }
+
+  # ------------------------------------------------------------------
+  # Profil usaha (satu berkas: src/data/site/profile.json)
+  # ------------------------------------------------------------------
+  - name: site
+    label: Profil Usaha
+    label_singular: Profil Usaha
+    files:
+      - name: profile
+        label: Profil Usaha
+        file: src/data/site/profile.json
+        identifier_field: brand.name
+        format: json
+        fields:
+          - label: Merek
+            name: brand
+            widget: object
+            fields:
+              - { label: Nama usaha, name: name, widget: string }
+              - { label: Nama badan usaha, name: legalName, widget: string, required: false }
+              - { label: Tagline, name: tagline, widget: string, required: false }
+              - { label: Logo, name: logo, widget: image, required: false }
+              - { label: Favicon (path), name: favicon, widget: string, default: /favicon.svg }
+          - label: SEO
+            name: seo
+            widget: object
+            fields:
+              - { label: Judul default, name: title, widget: string, required: false }
+              - { label: Deskripsi default, name: description, widget: text, required: false }
+              - { label: Gambar OG, name: ogImage, widget: image, required: false }
+          - label: Kontak
+            name: contact
+            widget: object
+            fields:
+              - label: Nomor WhatsApp
+                name: whatsapp
+                widget: string
+                pattern:
+                  ['^62[0-9]{8,13}$', 'Format 62xxx, tanpa tanda + dan tanpa spasi']
+                hint: Contoh: 6281234567890
+              - { label: Email, name: email, widget: string, required: false }
+              - label: Alamat
+                name: address
+                widget: object
+                fields:
+                  - { label: Jalan / dusun, name: line1, widget: string, required: false }
+                  - { label: Patokan, name: line2, widget: string, required: false }
+                  - { label: Desa, name: village, widget: string, required: false }
+                  - { label: Kecamatan, name: district, widget: string, required: false }
+                  - { label: Kota / kabupaten, name: city, widget: string, required: false }
+                  - { label: Provinsi, name: province, widget: string, required: false }
+                  - { label: Kode pos, name: postcode, widget: string, required: false }
+              - { label: Tautan peta, name: mapsUrl, widget: string, required: false }
+              - label: Jam kerja
+                name: businessHours
+                widget: list
+                field:
+                  label: Jam
+                  name: row
+                  widget: object
+                  fields:
+                    - { label: Hari, name: label, widget: string }
+                    - { label: Jam, name: hours, widget: string }
+          - label: Template pesan WhatsApp
+            name: whatsapp
+            widget: object
+            fields:
+              - label: Sapaan untuk tombol produk
+                name: greeting
+                widget: text
+                hint: 'Gunakan {brand} untuk nama usaha dan {produk} untuk nama produk.'
+              - label: Sapaan untuk tombol umum
+                name: greetingUmum
+                widget: text
+                hint: Dipakai header, tombol mengambang, dan CTA beranda. Jangan memakai {produk}.
+          - label: Hero beranda
+            name: hero
+            widget: object
+            fields:
+              - { label: Judul besar, name: headline, widget: string }
+              - { label: Sub judul, name: subheadline, widget: text }
+              - { label: Tombol utama, name: primaryCta, widget: string }
+              - { label: Tombol kedua, name: secondaryCta, widget: string }
+              - { label: Gambar, name: image, widget: image, required: false }
+          - label: Company profile
+            name: about
+            widget: object
+            fields:
+              - label: Ringkasan
+                name: summary
+                widget: text
+              - label: Cerita perusahaan (satu paragraf per butir)
+                name: story
+                widget: list
+                field:
+                  label: Paragraf
+                  name: paragraph
+                  widget: markdown
+              - { label: Visi, name: vision, widget: text }
+              - label: Misi
+                name: mission
+                widget: list
+                field:
+                  label: Poin misi
+                  name: point
+                  widget: string
+              - label: Keunggulan
+                name: highlights
+                widget: list
+                field:
+                  label: Keunggulan
+                  name: highlight
+                  widget: object
+                  fields:
+                    - { label: Judul, name: title, widget: string }
+                    - { label: Keterangan, name: description, widget: text, required: false }
+                    - { label: Emoji, name: emoji, widget: string, default: '🌿' }
+              - label: Angkasorotan
+                name: stats
+                widget: list
+                field:
+                  label: Statistik
+                  name: stat
+                  widget: object
+                  fields:
+                    - { label: Nilai, name: value, widget: string }
+                    - { label: Keterangan, name: label, widget: string }
+              - label: Sertifikasi
+                name: certifications
+                widget: list
+                required: false
+                field:
+                  label: Sertifikasi
+                  name: cert
+                  widget: string
+              - label: Wilayah pengiriman
+                name: markets
+                widget: list
+                required: false
+                field:
+                  label: Wilayah
+                  name: market
+                  widget: string
+              - { label: Tahun berdiri, name: foundedYear, widget: number, value_type: int }
+          - label: Blok ajakan order
+            name: closing
+            widget: object
+            fields:
+              - { label: Judul, name: title, widget: string }
+              - { label: Keterangan, name: description, widget: text }

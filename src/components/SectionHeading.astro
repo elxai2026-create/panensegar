@@ -1,0 +1,17 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  /** Rata-kiri tanpa blok judul, dipakai di header halaman dalam. */
+  align?: 'left' | 'center';
+}
+
+const { eyebrow, title, description, align = 'left' } = Astro.props;
+---
+
+<div class:list={['max-w-2xl', align === 'center' && 'mx-auto text-center']}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <h2 class="section-title mt-2">{title}</h2>
+  {description && <p class="prose-desc mt-3">{description}</p>}
+</div>

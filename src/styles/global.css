@@ -1,0 +1,95 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans:
+    'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --color-brand-50: oklch(0.97 0.02 145);
+  --color-brand-100: oklch(0.93 0.05 145);
+  --color-brand-200: oklch(0.87 0.09 145);
+  --color-brand-300: oklch(0.78 0.13 145);
+  --color-brand-400: oklch(0.68 0.16 145);
+  --color-brand-500: oklch(0.58 0.15 145);
+  --color-brand-600: oklch(0.5 0.13 145);
+  --color-brand-700: oklch(0.42 0.1 145);
+  --color-brand-800: oklch(0.34 0.07 145);
+  --color-brand-900: oklch(0.27 0.05 145);
+  --color-brand-950: oklch(0.19 0.04 145);
+
+  --color-wa-500: #25d366;
+  --color-wa-600: #1eb455;
+  --color-wa-700: #179848;
+
+  --color-soil-100: oklch(0.94 0.02 70);
+  --color-soil-300: oklch(0.82 0.03 65);
+  --color-soil-500: oklch(0.58 0.05 60);
+  --color-soil-700: oklch(0.44 0.06 55);
+  --color-soil-900: oklch(0.28 0.04 55);
+
+  --shadow-card: 0 1px 2px oklch(0.28 0.04 55 / 0.06), 0 8px 24px oklch(0.28 0.04 55 / 0.08);
+  --shadow-card-hover: 0 2px 4px oklch(0.28 0.04 55 / 0.08),
+    0 16px 40px oklch(0.28 0.04 55 / 0.14);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    @apply bg-white text-soil-900 antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+@utility card {
+  @apply rounded-2xl border border-soil-100 bg-white shadow-card;
+}
+
+@utility section-title {
+  @apply text-2xl font-bold tracking-tight text-balance text-soil-900 sm:text-3xl;
+}
+
+@utility btn-base {
+  @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold
+    transition focus-visible:outline-2 focus-visible:outline-offset-2;
+}
+
+@utility btn-primary {
+  @apply btn-base bg-brand-600 px-5 py-2.5 text-white hover:bg-brand-700 active:bg-brand-800;
+}
+
+@utility btn-wa {
+  @apply btn-base bg-wa-500 text-white hover:bg-wa-600 active:bg-wa-700;
+}
+
+@utility btn-ghost {
+  @apply btn-base border border-brand-200 bg-white px-5 py-2.5 text-brand-800 hover:bg-brand-50;
+}
+
+@utility eyebrow {
+  @apply text-sm font-semibold tracking-widest text-brand-600 uppercase;
+}

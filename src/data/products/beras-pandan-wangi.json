@@ -1,0 +1,23 @@
+{
+  "name": "Beras Pandan Wangi",
+  "summary": "Beras pandan wangi giling fresh, wangi dan pulen.",
+  "description": "Digiling fresh sesuai pesanan, bukan butiran kering yang disimpan berbulan-bulan. Aroma wangi pandan masih tercium saat dimasak dan nasinya pulen. Tersedia kemasan 5 kg, 10 kg, dan 25 kg.",
+  "category": "beras",
+  "price": 15500,
+  "unit": "kg",
+  "minOrder": "5 kg",
+  "stockNote": "Giling fresh setiap Senin dan Kamis",
+  "photos": [
+    "../../assets/products/beras-pandan-wangi.jpg"
+  ],
+  "featured": true,
+  "popular": true,
+  "available": true,
+  "tags": [
+    "giling fresh",
+    "pulen",
+    "kemasan 5/10/25 kg"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 90
+}

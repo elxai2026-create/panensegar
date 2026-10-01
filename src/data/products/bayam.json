@@ -1,0 +1,23 @@
+{
+  "name": "Bayam",
+  "summary": "Bayam hijau segar, sudah dicuci dan siap masak.",
+  "description": "Dipanen pagi hari, langsung dicuci tiga kali dengan air bersih dan dikeringkan. Tidak perlu dicuci lagi sebelum dimasak, jadi praktis untuk tumis, sup, atau lalapan.",
+  "category": "sayur",
+  "price": 6000,
+  "unit": "ikat",
+  "minOrder": "10 ikat",
+  "stockNote": "Panen setiap hari",
+  "photos": [
+    "../../assets/products/bayam.jpg"
+  ],
+  "featured": false,
+  "popular": true,
+  "available": true,
+  "tags": [
+    "siap masak",
+    "lalapan",
+    "zat besi"
+  ],
+  "updatedAt": "2026-10-01",
+  "order": 40
+}
