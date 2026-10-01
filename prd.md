@@ -507,7 +507,7 @@ bergantung pada langkah ini, jadi CMS boleh diaktifkan belakangan.
 
 | ID | Risiko / Batasan | Dampak | Mitigasi / Status |
 | --- | --- | --- | --- |
-| **R-01** | Nomor WhatsApp & domain masih nilai contoh | Pelanggan menghubungi nomor yang salah / URL salah | WAJIB diganti sebelum produksi (lihat 10.3) |
+| **R-01** | Nomor WhatsApp masih placeholder `6281234567890` | Pelanggan menghubungi nomor yang salah | Sudah tayang publik. Keputusan pemilik: biarkan untuk sementara |
 | **R-02** | `/admin/` belum diotorisasi OAuth | Admin belum bisa login | Kode sudah siap; tinggal setujui OAuth saat login pertama (lihat 10.4) |
 | **R-03** | Cloudflare Pages belum terhubung ke repo | Situs tidak punya build pipeline | Hubungkan repo di dashboard Cloudflare Pages (satu kali) |
 | **R-04** | Dua foto produk masih "proxy" | `beras` (foto beras putih, bukan pandan wangi) & `bawang-merah` (foto red onion, bukan shallot) kurang akurat | Ganti dengan foto asli lewat CMS bila tersedia |
@@ -612,9 +612,9 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **M-02** | Logo tampil baik di header & favicon | Buka beranda | ⬜ Butuh mata manusia |
 | **M-03** | Tampilan responsif mobile & desktop | Buka di viewport kecil & besar | ⬜ Butuh browser |
 | **M-04** | Tombol WA membuka WA dengan pesan benar | Klik tombol, cek app/wa.me | ⬜ Butuh device |
-| **M-05** | Login CMS & edit konten | Buka `/admin/` | ⬜ Prasyarat belum setup |
-| **M-06** | Validasi Rich Results (schema.org) | Google Rich Results Test | ⬜ Butuh URL publik |
-| **M-07** | Situs benar-benar online di domain | Buka `https://panensegar.jamesq.my.id` | ⬜ Tunggu build Cloudflare Pages pertama |
+| **M-05** | Login CMS & edit konten | Buka `/admin/` | ⬜ Butuh persetujuan OAuth Sveltia + akun sebagai collaborator |
+| **M-06** | Validasi Rich Results (schema.org) | Google Rich Results Test | ⬜ URL publik sudah ada, tinggal diuji |
+| **M-07** | Situs online di domain | Buka `https://panensegar.jamesq.my.id` | ✅ 200, 21 URL 200 tanpa redirect, aset 200 |
 
 ### 13.3 Uji Otomatis (yang sudah Dijalankan)
 

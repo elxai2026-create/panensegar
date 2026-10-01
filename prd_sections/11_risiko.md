@@ -2,7 +2,7 @@
 
 | ID | Risiko / Batasan | Dampak | Mitigasi / Status |
 | --- | --- | --- | --- |
-| **R-01** | Nomor WhatsApp & domain masih nilai contoh | Pelanggan menghubungi nomor yang salah / URL salah | WAJIB diganti sebelum produksi (lihat 10.3) |
+| **R-01** | Nomor WhatsApp masih placeholder `6281234567890` | Pelanggan menghubungi nomor yang salah | Sudah tayang publik. Keputusan pemilik: biarkan untuk sementara |
 | **R-02** | `/admin/` belum diotorisasi OAuth | Admin belum bisa login | Kode sudah siap; tinggal setujui OAuth saat login pertama (lihat 10.4) |
 | **R-03** | Cloudflare Pages belum terhubung ke repo | Situs tidak punya build pipeline | Hubungkan repo di dashboard Cloudflare Pages (satu kali) |
 | **R-04** | Dua foto produk masih "proxy" | `beras` (foto beras putih, bukan pandan wangi) & `bawang-merah` (foto red onion, bukan shallot) kurang akurat | Ganti dengan foto asli lewat CMS bila tersedia |

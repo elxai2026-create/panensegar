@@ -31,9 +31,9 @@ Fungsi dianggap selesai bila **semua** butir ini terpenuhi dan terverifikasi lew
 | **M-02** | Logo tampil baik di header & favicon | Buka beranda | ⬜ Butuh mata manusia |
 | **M-03** | Tampilan responsif mobile & desktop | Buka di viewport kecil & besar | ⬜ Butuh browser |
 | **M-04** | Tombol WA membuka WA dengan pesan benar | Klik tombol, cek app/wa.me | ⬜ Butuh device |
-| **M-05** | Login CMS & edit konten | Buka `/admin/` | ⬜ Prasyarat belum setup |
-| **M-06** | Validasi Rich Results (schema.org) | Google Rich Results Test | ⬜ Butuh URL publik |
-| **M-07** | Situs benar-benar online di domain | Buka `https://panensegar.jamesq.my.id` | ⬜ Tunggu build Cloudflare Pages pertama |
+| **M-05** | Login CMS & edit konten | Buka `/admin/` | ⬜ Butuh persetujuan OAuth Sveltia + akun sebagai collaborator |
+| **M-06** | Validasi Rich Results (schema.org) | Google Rich Results Test | ⬜ URL publik sudah ada, tinggal diuji |
+| **M-07** | Situs online di domain | Buka `https://panensegar.jamesq.my.id` | ✅ 200, 21 URL 200 tanpa redirect, aset 200 |
 
 ### 13.3 Uji Otomatis (yang sudah Dijalankan)
 
@@ -50,4 +50,4 @@ Audit `dist/` yang dijalankan setiap build memverifikasi:
 PRD ini selesai bila:
 - [ ] Seluruh acceptance criteria A-01..A-12 ✅ (terpenuhi).
 - [ ] Uji manual M-01..M-03 dijalankan dan disetujui pemilik.
-- [ ] Prasyarat produksi diselesaikan: ~~`SITE_URL`~~ ✅, ~~repo di-init & ter-push~~ ✅, ~~`backend.repo` CMS~~ ✅, ~~pipeline build~~ ✅ (Cloudflare Pages) — tersisa: hubungkan repo di dashboard Cloudflare, ganti nomor WhatsApp placeholder, dan otorisasi OAuth CMS.
+- [x] Prasyarat produksi diselesaikan: ~~`SITE_URL`~~ ✅, ~~repo di-init & ter-push~~ ✅, ~~`backend.repo` CMS~~ ✅, ~~pipeline build~~ ✅ (Cloudflare Pages) — tersisa: hubungkan repo di dashboard Cloudflare, ganti nomor WhatsApp placeholder, dan otorisasi OAuth CMS.
